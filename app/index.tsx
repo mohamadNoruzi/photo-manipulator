@@ -1,24 +1,31 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { getLocales } from "expo-localization";
 import i18n from "@/constants/LocalLang";
 
+// Set the locale once at the beginning of your app.
+i18n.locale = getLocales()[0].languageCode ?? "en";
+// When a value is missing from a language it'll fall back to another language with the key present.
+i18n.enableFallback = true;
+
 const Page = () => {
-  const [language, setLanguage] = useState();
+  const [language, setLanguage] = useState("");
 
-  useLayoutEffect(() => {
-    // Set the locale once at the beginning of your app.
-    i18n.locale = getLocales()[0].languageCode ?? "en";
+  language ? (i18n.locale = language) : null;
 
-    // When a value is missing from a language it'll fall back to another language with the key present.
-    i18n.enableFallback = true;
-  }, []);
+  const handleLan = () => {
+    if (language == "en" || language == "") {
+      setLanguage("fa");
+    } else {
+      setLanguage("en");
+    }
+  };
 
   return (
     <SafeAreaProvider style={styles.container}>
       <View style={styles.sectionOne}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleLan}>
           <Text>{i18n.t("welcome")}</Text>
         </TouchableOpacity>
       </View>
