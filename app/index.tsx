@@ -41,11 +41,11 @@ const Page = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "red",
+    // backgroundColor: "red",
   },
   sectionOne: {
     flex: 2,
-    backgroundColor: "green",
+    // backgroundColor: "green",
   },
   sectionTwo: {
     flex: 2,
