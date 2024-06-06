@@ -1,4 +1,5 @@
 import {
+  ImageBackground,
   StyleSheet,
   Text,
   Touchable,
@@ -17,23 +18,24 @@ import Animated, {
 
 const CustomHeader = () => {
   const [status, setStatus] = useState(false);
-  const backgroundColor = useSharedValue("red");
+
   const paddingLeft = useSharedValue(0);
+  const backgroundColor = useSharedValue("white");
 
   const animatedStyle = useAnimatedStyle(() => {
-    console.log("paddingLeft", paddingLeft.value);
+    console.log("backgroundColor", backgroundColor.value);
     return {
       paddingLeft: paddingLeft.value,
-      backgroundColor: backgroundColor.value,
     };
   });
 
   const moveToggle = () => {
     let padding = status ? 0 : 50;
+    let color = status ? "transparent" : "grey";
     paddingLeft.value = withDelay(0.1, withTiming(padding, { duration: 500 }));
     backgroundColor.value = withDelay(
-      1,
-      withTiming("yellow", { duration: 2000 })
+      0.1,
+      withTiming(color, { duration: 500 })
     );
     setStatus(!status);
   };
@@ -41,11 +43,27 @@ const CustomHeader = () => {
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        <Animated.View style={[styles.lanTogle, animatedStyle]}>
-          <TouchableOpacity onPress={moveToggle}>
-            <View style={styles.circle}></View>
+        <View style={styles.toggleBox}>
+          <TouchableOpacity onPress={moveToggle} activeOpacity={1}>
+            {status ? (
+              <Animated.View style={{ backgroundColor: backgroundColor }}>
+                <Animated.View style={[styles.layer, animatedStyle]}>
+                  <View style={styles.circle}></View>
+                </Animated.View>
+              </Animated.View>
+            ) : (
+              <ImageBackground
+                source={require("../assets/images/toggle.jpg")}
+                style={styles.backgroundImage}
+                resizeMode="cover"
+              >
+                <Animated.View style={[styles.layer, animatedStyle]}>
+                  <View style={styles.circle}></View>
+                </Animated.View>
+              </ImageBackground>
+            )}
           </TouchableOpacity>
-        </Animated.View>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -57,14 +75,19 @@ const styles = StyleSheet.create({
     height: 80,
     justifyContent: "center",
   },
-  lanTogle: {
+  toggleBox: {
     width: 90,
     height: 40,
     marginLeft: 30,
-    backgroundColor: "red",
     borderRadius: 40,
+    overflow: "hidden",
+  },
+  backgroundImage: {
+    width: "100%",
+    height: "100%",
+  },
+  layer: {
     paddingLeft: 0,
-    // alignItems: "flex-start",
   },
   circle: {
     width: 40,
