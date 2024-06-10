@@ -1,14 +1,15 @@
 import {
-  ImageBackground,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  Dimensions,
 } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { getLocales } from "expo-localization";
 import i18n from "@/constants/LocalLang";
+import { Link, useNavigation } from "expo-router";
 
 // Set the locale once at the beginning of your app.
 i18n.locale = getLocales()[0].languageCode ?? "en";
@@ -17,6 +18,7 @@ i18n.enableFallback = true;
 
 const Page = () => {
   const [language, setLanguage] = useState("");
+  const navigate = useNavigation();
 
   language ? (i18n.locale = language) : null;
 
@@ -36,7 +38,11 @@ const Page = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.sectionTwo}>
-        <Text>index</Text>
+        <Link href={"/Image"} style={styles.buttonContainer} asChild>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Import</Text>
+          </TouchableOpacity>
+        </Link>
       </View>
       <View style={styles.sectionThree}>
         <Text>index</Text>
@@ -56,6 +62,24 @@ const styles = StyleSheet.create({
   sectionTwo: {
     flex: 2,
     backgroundColor: "yellow",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonContainer: {},
+  button: {
+    height: 100,
+    width: Dimensions.get("window").width - 100,
+    padding: 24,
+    backgroundColor: "white",
+    borderRadius: 20,
+    elevation: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    fontWeight: "bold",
+    fontSize: 30,
+    color: "black",
   },
   sectionThree: {
     flex: 1,

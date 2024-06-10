@@ -21,7 +21,6 @@ const CustomHeader = () => {
   const backgroundColor = useSharedValue("grey");
 
   const animatedStyle = useAnimatedStyle(() => {
-    console.log("backgroundColor", backgroundColor.value);
     return {
       paddingLeft: paddingLeft.value,
     };
