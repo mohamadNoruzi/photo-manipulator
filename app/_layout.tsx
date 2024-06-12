@@ -19,6 +19,7 @@ export default function RootLayoutNav() {
           header: () => <CustomHeader />,
         }}
       />
+      <Stack.Screen name="manupolate" />
     </Stack>
   );
 }

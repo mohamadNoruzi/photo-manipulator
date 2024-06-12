@@ -38,7 +38,7 @@ const Page = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.sectionTwo}>
-        <Link href={"/Image"} style={styles.buttonContainer} asChild>
+        <Link href={"/manupolate"} style={styles.buttonContainer} asChild>
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>Import</Text>
           </TouchableOpacity>
