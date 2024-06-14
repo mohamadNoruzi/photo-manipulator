@@ -2,6 +2,7 @@ import { Stack } from "expo-router";
 import React from "react";
 import "react-native-reanimated";
 import CustomHeader from "@/components/CustomHeader";
+import ManipulatorHeader from "@/components/ManipulatorHeader";
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
@@ -19,7 +20,14 @@ export default function RootLayoutNav() {
           header: () => <CustomHeader />,
         }}
       />
-      <Stack.Screen name="manupolate" />
+      <Stack.Screen
+        name="manipulator"
+        options={{
+          presentation: "modal",
+          headerTitle: "",
+          header: () => <ManipulatorHeader />,
+        }}
+      />
     </Stack>
   );
 }
