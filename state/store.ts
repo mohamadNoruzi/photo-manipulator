@@ -8,6 +8,11 @@ type Image = {
   addSize: (size: number) => void;
 };
 
+type slider = {
+  qualityValue: number;
+  changeValue: (val: number) => void;
+};
+
 const useImageStore = create<Image>()((set) => ({
   imageUri: "",
   imageSize: 0,
@@ -16,4 +21,10 @@ const useImageStore = create<Image>()((set) => ({
   removeImageUri: () => set(() => ({ imageUri: "" })),
 }));
 
-export default useImageStore;
+const useSliderStore = create<slider>()((set) => ({
+  qualityValue: 1,
+  changeValue: (val) =>
+    set(() => ({ qualityValue: Math.trunc(val * 10) / 10 })),
+}));
+
+export { useImageStore, useSliderStore };

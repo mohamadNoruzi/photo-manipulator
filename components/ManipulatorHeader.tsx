@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import MyButton from "./MyButton";
-import useImageStore from "@/state/image";
+import { useImageStore } from "@/state/store";
 
 const ManipulatorHeader = () => {
   const navigation = useNavigation();
