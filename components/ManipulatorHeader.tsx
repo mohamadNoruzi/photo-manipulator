@@ -15,7 +15,9 @@ const ManipulatorHeader = () => {
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.arrow}
-          onPress={() => navigation.goBack()}
+          onPress={() => {
+            navigation.goBack(), removeImageUri();
+          }}
         >
           <Ionicons name="arrow-back" size={24} />
         </TouchableOpacity>
