@@ -5,16 +5,16 @@ type Image = {
   imageUri: string;
   imageSize: number;
   orginalUri: string;
+  imageRatio: any;
   addImageUri: (uri: string) => void;
   removeImageUri: () => void;
   addSize: (size: number) => void;
+  setImageRatio: (h: any, w: any) => void;
 };
 
 type slider = {
-  lock: boolean;
   qualityValue: number;
   changeValue: (val: number) => void;
-  changeLock: () => void;
 };
 
 type format = {
@@ -26,6 +26,8 @@ const useImageStore = create<Image>()((set) => ({
   imageUri: "",
   orginalUri: "",
   imageSize: 0,
+  imageRatio: [0, 0],
+
   addImageUri: (uri) =>
     set((prev) => ({
       imageUri: uri,
@@ -33,14 +35,14 @@ const useImageStore = create<Image>()((set) => ({
     })),
   addSize: (size) => set(() => ({ imageSize: size })),
   removeImageUri: () => set(() => ({ imageUri: "", orginalUri: "" })),
+
+  setImageRatio: (h, w) => set(() => ({ imageRatio: [h, w] })),
 }));
 
 const useSliderStore = create<slider>()((set) => ({
   qualityValue: 1,
-  lock: false,
   changeValue: (val) =>
     set(() => ({ qualityValue: Math.trunc(val * 10) / 10 })),
-  changeLock: () => set((prev) => ({ lock: !prev.lock })),
 }));
 
 const useFormatStore = create<format>()((set) => ({
