@@ -6,6 +6,7 @@ type Image = {
   imageSize: number;
   orginalUri: string;
   imageRatio: any;
+  constRatio: any;
   addImageUri: (uri: string) => void;
   removeImageUri: () => void;
   addSize: (size: number) => void;
@@ -27,6 +28,7 @@ const useImageStore = create<Image>()((set) => ({
   orginalUri: "",
   imageSize: 0,
   imageRatio: [0, 0],
+  constRatio: null,
 
   addImageUri: (uri) =>
     set((prev) => ({
@@ -36,7 +38,11 @@ const useImageStore = create<Image>()((set) => ({
   addSize: (size) => set(() => ({ imageSize: size })),
   removeImageUri: () => set(() => ({ imageUri: "", orginalUri: "" })),
 
-  setImageRatio: (h, w) => set(() => ({ imageRatio: [h, w] })),
+  setImageRatio: (h, w) =>
+    set((state) => ({
+      imageRatio: [h, w],
+      constRatio: state.constRatio ? state.constRatio : [h, w],
+    })),
 }));
 
 const useSliderStore = create<slider>()((set) => ({

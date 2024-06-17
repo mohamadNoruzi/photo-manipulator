@@ -35,26 +35,44 @@ const manupolate = () => {
     imageSize,
     orginalUri,
     imageRatio,
+    constRatio,
   } = useImageStore();
   const { qualityValue, changeValue } = useSliderStore();
   const { format, setFormat } = useFormatStore();
-  const width = useSharedValue(0);
-  const height = useSharedValue(0);
+  const Width = useSharedValue(0);
+  const Height = useSharedValue(0);
 
-  useLayoutEffect(() => {}, []);
+  // useLayoutEffect(() => {}, []);
+
+  useLayoutEffect(() => {
+    if (imageUri) {
+      compressImage();
+    }
+  }, [qualityValue, format]);
+
+  // useEffect(() => {
+  //   if (!imageUri) {
+  //     pickImage();
+  //   } else {
+  //     compressImage();
+  //   }
+  // }, [qualityValue, format]);
 
   useEffect(() => {
-    // lock ? null : changeLock();
-    if (!imageUri) {
-      pickImage();
+    if (imageRatio[0] > 0 && imageRatio[1] > 0) {
+      console.log("useEffectCall", imageRatio[0]);
+      measureRatio(imageRatio[0], imageRatio[1]);
     }
-    compressImage();
-  }, [qualityValue, format]);
+  }, [imageRatio]);
+
+  // useEffect(() => {
+  //   measureRatio(imageRatio[0], imageRatio[1]);
+  // }, []);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      width: width.value,
-      height: height.value,
+      width: Width.value,
+      height: Height.value,
     };
   });
 
@@ -73,6 +91,7 @@ const manupolate = () => {
   }
 
   const pickImage = async () => {
+    removeImageUri();
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
       alert("Sorry, we need camera roll permissions to make this work!");
@@ -86,10 +105,13 @@ const manupolate = () => {
     });
 
     if (!result.canceled) {
-      addImageUri(result?.assets[0]?.uri);
-      measureRatio(result?.assets[0]?.width, result?.assets[0]?.height);
-      console.log("pickImage", result?.assets[0]?.width);
-      const fileInfo = await FileSystem.getInfoAsync(result.assets[0].uri);
+      const uri = result?.assets[0]?.uri;
+      const width = result?.assets[0]?.width;
+      const height = result?.assets[0]?.height;
+      addImageUri(uri);
+      measureRatio(width, height);
+      console.log("pickImage", width);
+      const fileInfo = await FileSystem.getInfoAsync(uri);
       setFormat(result?.assets[0]?.mimeType?.slice(6));
       addSize(fileInfo?.size);
       changeValue(1);
@@ -97,6 +119,7 @@ const manupolate = () => {
   };
 
   const compressImage = async () => {
+    if (!imageUri) return;
     const manipResult = await manipulateAsync(
       imageUri,
       [], // adjust width as needed
@@ -114,19 +137,20 @@ const manupolate = () => {
 
   const measureRatio = (iW: any, iH: any) => {
     if (imageRatio[0] == 0) {
-      console.log("forceUpdate");
-      forceUpdate();
+      console.log("measureRatio00", iH, iW);
+      // forceUpdate();
     }
-    console.log("measureRatio1", iH, iW);
     console.log("imageRatio", imageRatio);
+
+    console.log("measureRatio1", iH, iW);
     if (iW >= iH) {
-      width.value = ratio[1];
-      height.value = (iH / iW) * ratio[1];
-      console.log("measureRatio", height, width);
+      Width.value = imageRatio[1];
+      Height.value = (iH / iW) * imageRatio[1];
+      console.log("measureRatio", Height, Width);
     } else {
-      height.value = ratio[0];
-      width.value = (iW / iH) * ratio[0];
-      console.log("measureRatio", height, width);
+      Height.value = constRatio[0];
+      Width.value = (iW / iH) * imageRatio[0];
+      console.log("measureRatio", Height, Width);
     }
   };
 
@@ -137,16 +161,18 @@ const manupolate = () => {
       event.nativeEvent.layout.height,
       event.nativeEvent.layout.width
     );
-    setRatio((pre) => [...pre, h, w]);
+
     // handleRatioChange(h, w);
     // setImageRatio(h, w);
-    console.log("onLayout");
+    console.log("constRatioOnLay", constRatio);
+    console.log("onLayout", event.nativeEvent.layout.height);
   };
 
   return (
     <SafeAreaView edges={["bottom"]} style={{ flex: 1 }}>
       <View style={styles.sectionOne} onLayout={onLayout}>
         <TouchableOpacity onPress={pickImage}>
+          <Text>click</Text>
           {imageUri ? (
             <>
               <Animated.Image
