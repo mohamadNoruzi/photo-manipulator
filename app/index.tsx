@@ -10,6 +10,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { getLocales } from "expo-localization";
 import i18n from "@/constants/LocalLang";
 import { Link, useNavigation } from "expo-router";
+import Colors from "@/constants/Colors";
 
 // Set the locale once at the beginning of your app.
 i18n.locale = getLocales()[0].languageCode ?? "en";
@@ -34,7 +35,8 @@ const Page = () => {
     <SafeAreaProvider style={styles.container}>
       <View style={styles.sectionOne}>
         <TouchableOpacity onPress={handleLan}>
-          <Text>{i18n.t("welcome")}</Text>
+          <Text>Simply resize or change format your image</Text>
+          {/* <Text>{i18n.t("welcome")}</Text> */}
         </TouchableOpacity>
       </View>
       <View style={styles.sectionTwo}>
@@ -53,15 +55,18 @@ const Page = () => {
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: "red",
+    // backgroundColor: Colors.plateThree.lgrey,
   },
   sectionOne: {
     flex: 2,
-    // backgroundColor: "green",
+    backgroundColor: Colors.plateThree.lgrey,
+    justifyContent: "center",
+    alignContent: "center",
+    padding: 12,
   },
   sectionTwo: {
     flex: 2,
-    backgroundColor: "yellow",
+    backgroundColor: Colors.plateThree.lgrey,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -72,7 +77,7 @@ const styles = StyleSheet.create({
     padding: 24,
     backgroundColor: "white",
     borderRadius: 20,
-    elevation: 10,
+    elevation: 2,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -83,7 +88,7 @@ const styles = StyleSheet.create({
   },
   sectionThree: {
     flex: 1,
-    backgroundColor: "blue",
+    backgroundColor: Colors.plateThree.lgrey,
   },
 });
 

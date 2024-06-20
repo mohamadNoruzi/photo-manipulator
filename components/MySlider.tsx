@@ -16,8 +16,8 @@ const MySlider = ({ style, onChange }: slider) => {
       style={[styles.slider, style]}
       minimumValue={0}
       maximumValue={1}
-      minimumTrackTintColor="#FFFFFF"
-      maximumTrackTintColor="#000000"
+      minimumTrackTintColor="#393E46"
+      maximumTrackTintColor="#393E46"
       step={0.1}
       onValueChange={(value) => {
         changeValue(value);

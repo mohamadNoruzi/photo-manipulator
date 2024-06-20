@@ -19,6 +19,7 @@ type myType = {
 const MyButton = ({ children, title, Bstyle, Tstyle, onPress }: myType) => {
   return (
     <TouchableOpacity onPress={onPress} style={[styles.container, Bstyle]}>
+      {children}
       <Text style={[styles.Text, Tstyle]}>{title}</Text>
     </TouchableOpacity>
   );

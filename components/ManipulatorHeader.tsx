@@ -5,10 +5,12 @@ import { useNavigation } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import MyButton from "./MyButton";
 import { useImageStore } from "@/state/store";
+import useSave from "@/hooks/useSave";
 
 const ManipulatorHeader = () => {
   const navigation = useNavigation();
   const { removeImageUri } = useImageStore();
+  const { getAlbums } = useSave();
 
   return (
     <SafeAreaView>
@@ -21,7 +23,9 @@ const ManipulatorHeader = () => {
         >
           <Ionicons name="arrow-back" size={24} />
         </TouchableOpacity>
-        <MyButton title="Export"></MyButton>
+        <MyButton title="Save" onPress={getAlbums} Bstyle={styles.saveButton}>
+          <Ionicons name="save-outline" size={24} />
+        </MyButton>
       </View>
     </SafeAreaView>
   );
@@ -39,7 +43,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   arrow: {
-    backgroundColor: "green",
+    backgroundColor: "#00ADB5",
     width: 48,
     height: 48,
 
@@ -47,5 +51,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 36,
     elevation: 5,
+  },
+  saveButton: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 4,
   },
 });

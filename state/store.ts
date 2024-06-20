@@ -36,7 +36,12 @@ const useImageStore = create<Image>()((set) => ({
       orginalUri: prev.orginalUri ? prev.orginalUri : uri,
     })),
   addSize: (size) => set(() => ({ imageSize: size })),
-  removeImageUri: () => set(() => ({ imageUri: "", orginalUri: "" })),
+  removeImageUri: () =>
+    set(() => ({
+      imageUri: "",
+      orginalUri: "",
+      imageSize: 0,
+    })),
 
   setImageRatio: (h, w) =>
     set((state) => ({

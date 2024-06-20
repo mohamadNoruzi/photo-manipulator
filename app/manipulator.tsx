@@ -6,10 +6,10 @@ import {
   Image,
   Dimensions,
 } from "react-native";
-import React, { useEffect, useLayoutEffect, useReducer, useState } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
-import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
+import { SaveFormat } from "expo-image-manipulator";
 import { useImageStore, useSliderStore, useFormatStore } from "@/state/store";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as MediaLibrary from "expo-media-library";
@@ -20,12 +20,14 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   SharedValue,
+  FlipInEasyX,
+  FadeInDown,
+  SlideInDown,
 } from "react-native-reanimated";
+import useCompress from "@/hooks/useCompress";
 
 const manupolate = () => {
-  const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
-  const [ratio, setRatio] = useState([0, 0]);
-  const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
+  // const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
   const {
     addImageUri,
     addSize,
@@ -39,10 +41,12 @@ const manupolate = () => {
   } = useImageStore();
   const { qualityValue, changeValue } = useSliderStore();
   const { format, setFormat } = useFormatStore();
+  const { compressImage } = useCompress();
   const Width = useSharedValue(0);
   const Height = useSharedValue(0);
-
-  // useLayoutEffect(() => {}, []);
+  const jpegtBackgroundColor = useSharedValue("#393E46");
+  const pngBackgroundColor = useSharedValue("#393E46");
+  const webpBackgroundColor = useSharedValue("#393E46");
 
   useLayoutEffect(() => {
     if (imageUri) {
@@ -50,24 +54,11 @@ const manupolate = () => {
     }
   }, [qualityValue, format]);
 
-  // useEffect(() => {
-  //   if (!imageUri) {
-  //     pickImage();
-  //   } else {
-  //     compressImage();
-  //   }
-  // }, [qualityValue, format]);
-
   useEffect(() => {
     if (imageRatio[0] > 0 && imageRatio[1] > 0) {
-      console.log("useEffectCall", imageRatio[0]);
       measureRatio(imageRatio[0], imageRatio[1]);
     }
-  }, [imageRatio]);
-
-  // useEffect(() => {
-  //   measureRatio(imageRatio[0], imageRatio[1]);
-  // }, []);
+  }, [imageRatio, orginalUri]);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -76,19 +67,16 @@ const manupolate = () => {
     };
   });
 
-  //save pic
-  async function getAlbums() {
-    if (permissionResponse?.status !== "granted") {
-      await requestPermission();
+  const handleFormatStyle = (format: string) => {
+    switch (format) {
+      case "jpeg" || "jpg":
+        jpegtBackgroundColor.value = "#00ADB5";
+      case "png":
+        pngBackgroundColor.value = "#00ADB5";
+      case "webp":
+        webpBackgroundColor.value = "#00ADB5";
     }
-    const asset = await MediaLibrary.createAssetAsync(imageUri);
-    const album = await MediaLibrary.getAlbumAsync("Download");
-    if (album == null) {
-      await MediaLibrary.createAlbumAsync("Download", asset, false);
-    } else {
-      await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
-    }
-  }
+  };
 
   const pickImage = async () => {
     removeImageUri();
@@ -118,27 +106,15 @@ const manupolate = () => {
     }
   };
 
-  const compressImage = async () => {
-    if (!imageUri) return;
-    const manipResult = await manipulateAsync(
-      imageUri,
-      [], // adjust width as needed
-      { compress: qualityValue, format: format }
-    );
-    const fileInfo = await FileSystem.getInfoAsync(manipResult.uri);
-    addImageUri(manipResult.uri);
-    addSize(fileInfo?.size);
-  };
-
   const handleFormat = (key: any) => {
     setFormat(key);
     addImageUri(orginalUri);
+    handleFormatStyle(key);
   };
 
   const measureRatio = (iW: any, iH: any) => {
     if (imageRatio[0] == 0) {
       console.log("measureRatio00", iH, iW);
-      // forceUpdate();
     }
     console.log("imageRatio", imageRatio);
 
@@ -148,15 +124,15 @@ const manupolate = () => {
       Height.value = (iH / iW) * imageRatio[1];
       console.log("measureRatio", Height, Width);
     } else {
-      Height.value = constRatio[0];
+      Height.value = imageRatio[0];
       Width.value = (iW / iH) * imageRatio[0];
       console.log("measureRatio", Height, Width);
     }
   };
 
   const onLayout = (event: any) => {
-    let h = event.nativeEvent.layout.height;
-    let w = event.nativeEvent.layout.width;
+    // let h = event.nativeEvent.layout.height;
+    // let w = event.nativeEvent.layout.width;
     setImageRatio(
       event.nativeEvent.layout.height,
       event.nativeEvent.layout.width
@@ -168,63 +144,101 @@ const manupolate = () => {
     console.log("onLayout", event.nativeEvent.layout.height);
   };
 
+  let importRemoveButton = imageUri ? "Remove Image" : "Import Image";
+  console.log("imageuri", imageUri);
+
   return (
-    <SafeAreaView edges={["bottom"]} style={{ flex: 1 }}>
+    <SafeAreaView edges={["bottom"]} style={styles.container}>
       <View style={styles.sectionOne} onLayout={onLayout}>
-        <TouchableOpacity onPress={pickImage}>
-          <Text>click</Text>
+        <TouchableOpacity>
           {imageUri ? (
             <>
               <Animated.Image
                 source={{ uri: imageUri }}
                 style={[animatedStyle, styles.image]}
               />
-              <Text>{imageSize}</Text>
             </>
           ) : null}
         </TouchableOpacity>
       </View>
-      <View style={styles.sectionTwo}>
+      <Animated.View entering={SlideInDown.delay(20)} style={styles.sectionTwo}>
+        {/* Quality  */}
         <View>
-          <View style={styles.qualityText}>
-            <Ionicons
-              name="refresh-outline"
-              size={18}
-              onPress={() => {
-                addImageUri(orginalUri), changeValue(1);
-              }}
-            />
-            <Text>Quality: {qualityValue}</Text>
-          </View>
+          <TouchableOpacity
+            activeOpacity={0.1}
+            style={styles.qualityText}
+            onPress={() => {
+              addImageUri(orginalUri), changeValue(1);
+            }}
+          >
+            <Ionicons name="refresh-outline" size={22} />
+            <Text style={{ fontSize: 18 }}>Quality: {qualityValue}</Text>
+          </TouchableOpacity>
+          {/* Slider  */}
           <MySlider />
         </View>
+        {/* Format section */}
         <View style={styles.format}>
-          <TouchableOpacity onPress={() => handleFormat(SaveFormat.JPEG)}>
-            <Text>JPEG</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleFormat(SaveFormat.PNG)}>
-            <Text>PNG</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleFormat(SaveFormat.WEBP)}>
-            <Text>WEBP</Text>
-          </TouchableOpacity>
+          <MyButton
+            Bstyle={[
+              styles.formatButton,
+              { backgroundColor: jpegtBackgroundColor.value },
+            ]}
+            Tstyle={styles.formatText}
+            title="JPEG"
+            onPress={() => handleFormat(SaveFormat.JPEG)}
+          />
+          <MyButton
+            Bstyle={[
+              styles.formatButton,
+              { backgroundColor: pngBackgroundColor.value },
+            ]}
+            Tstyle={styles.formatText}
+            title="PNG"
+            onPress={() => handleFormat(SaveFormat.PNG)}
+          />
+          <MyButton
+            Bstyle={[
+              styles.formatButton,
+              { backgroundColor: webpBackgroundColor.value },
+            ]}
+            Tstyle={styles.formatText}
+            title="WEBP"
+            onPress={() => handleFormat(SaveFormat.WEBP)}
+          />
         </View>
+        <View style={styles.imageSize}>
+          <Text style={{ fontSize: 16 }}>
+            {(imageSize / 1000).toFixed(1)} KB
+          </Text>
+        </View>
+        {/* Remove button */}
+
         <MyButton
-          Bstyle={styles.removeButton}
+          Bstyle={[
+            styles.removeButton,
+            { backgroundColor: imageUri ? "red" : "#00ADB5" },
+          ]}
           Tstyle={styles.removeButtonText}
-          onPress={() => removeImageUri()}
-          title="Remove"
+          onPress={() => {
+            imageUri ? removeImageUri() : pickImage();
+          }}
+          title={importRemoveButton}
         ></MyButton>
-        <MyButton onPress={() => getAlbums()} title="save"></MyButton>
-      </View>
+      </Animated.View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "black",
+    elevation: 5,
+  },
   sectionOne: {
     flex: 3,
-    backgroundColor: "gray",
+    backgroundColor: "black",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -234,8 +248,10 @@ const styles = StyleSheet.create({
   },
   sectionTwo: {
     flex: 2,
-    backgroundColor: "green",
+    backgroundColor: "#EEEEEE",
     justifyContent: "space-between",
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
   },
   qualityText: {
     flexDirection: "row",
@@ -249,14 +265,33 @@ const styles = StyleSheet.create({
     gap: 40,
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: 10,
+    marginBottom: 10,
+    paddingHorizontal: 60,
+  },
+  formatButton: {
+    backgroundColor: "#393E46",
+    borderRadius: 30,
+    padding: 1,
+    width: 60,
+    height: 60,
+    elevation: 2,
+  },
+  formatText: {
+    color: "#EEEEEE",
+  },
+  imageSize: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 15,
   },
   removeButton: {
     width: "auto",
     marginHorizontal: 12,
-    backgroundColor: "yellow",
+    marginTop: 0,
+    marginBottom: 10,
+    backgroundColor: "#00ADB5",
     borderRadius: 10,
-    height: 40,
+    height: 50,
   },
   removeButtonText: {
     color: "white",
