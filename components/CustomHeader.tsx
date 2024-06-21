@@ -13,7 +13,6 @@ import Animated, {
   withDelay,
   withTiming,
 } from "react-native-reanimated";
-import Colors from "@/constants/Colors";
 
 const CustomHeader = () => {
   const [status, setStatus] = useState(false);

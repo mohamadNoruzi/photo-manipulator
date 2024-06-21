@@ -5,7 +5,7 @@ import {
   View,
   Dimensions,
 } from "react-native";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useState } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { getLocales } from "expo-localization";
 import i18n from "@/constants/LocalLang";
@@ -54,9 +54,7 @@ const Page = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    // backgroundColor: Colors.plateThree.lgrey,
-  },
+  container: {},
   sectionOne: {
     flex: 2,
     backgroundColor: Colors.plateThree.lgrey,

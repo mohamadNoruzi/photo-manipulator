@@ -1,18 +1,10 @@
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-  Dimensions,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useLayoutEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import { SaveFormat } from "expo-image-manipulator";
 import { useImageStore, useSliderStore, useFormatStore } from "@/state/store";
 import { SafeAreaView } from "react-native-safe-area-context";
-import * as MediaLibrary from "expo-media-library";
 import MySlider from "@/components/MySlider";
 import MyButton from "@/components/MyButton";
 import { Ionicons } from "@expo/vector-icons";
@@ -27,7 +19,6 @@ import Animated, {
 import useCompress from "@/hooks/useCompress";
 
 const manupolate = () => {
-  // const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
   const {
     addImageUri,
     addSize,
@@ -47,6 +38,12 @@ const manupolate = () => {
   const jpegtBackgroundColor = useSharedValue("#393E46");
   const pngBackgroundColor = useSharedValue("#393E46");
   const webpBackgroundColor = useSharedValue("#393E46");
+
+  const stylesArray = {
+    jpeg: jpegtBackgroundColor,
+    png: pngBackgroundColor,
+    webp: webpBackgroundColor,
+  };
 
   useLayoutEffect(() => {
     if (imageUri) {
@@ -68,13 +65,10 @@ const manupolate = () => {
   });
 
   const handleFormatStyle = (format: string) => {
-    switch (format) {
-      case "jpeg" || "jpg":
-        jpegtBackgroundColor.value = "#00ADB5";
-      case "png":
-        pngBackgroundColor.value = "#00ADB5";
-      case "webp":
-        webpBackgroundColor.value = "#00ADB5";
+    if (`${stylesArray}.${format} = "#00ADB5"`) {
+      `${stylesArray}.${format} = "#393E46"`;
+    } else {
+      `${stylesArray}.${format} = "#00ADB5"`;
     }
   };
 
@@ -109,7 +103,6 @@ const manupolate = () => {
   const handleFormat = (key: any) => {
     setFormat(key);
     addImageUri(orginalUri);
-    handleFormatStyle(key);
   };
 
   const measureRatio = (iW: any, iH: any) => {
@@ -131,15 +124,10 @@ const manupolate = () => {
   };
 
   const onLayout = (event: any) => {
-    // let h = event.nativeEvent.layout.height;
-    // let w = event.nativeEvent.layout.width;
     setImageRatio(
       event.nativeEvent.layout.height,
       event.nativeEvent.layout.width
     );
-
-    // handleRatioChange(h, w);
-    // setImageRatio(h, w);
     console.log("constRatioOnLay", constRatio);
     console.log("onLayout", event.nativeEvent.layout.height);
   };
@@ -186,7 +174,9 @@ const manupolate = () => {
             ]}
             Tstyle={styles.formatText}
             title="JPEG"
-            onPress={() => handleFormat(SaveFormat.JPEG)}
+            onPress={() => {
+              handleFormat("jpeg"), handleFormatStyle("jpeg");
+            }}
           />
           <MyButton
             Bstyle={[
@@ -195,7 +185,9 @@ const manupolate = () => {
             ]}
             Tstyle={styles.formatText}
             title="PNG"
-            onPress={() => handleFormat(SaveFormat.PNG)}
+            onPress={() => {
+              handleFormat("png"), handleFormatStyle("png");
+            }}
           />
           <MyButton
             Bstyle={[
@@ -204,7 +196,9 @@ const manupolate = () => {
             ]}
             Tstyle={styles.formatText}
             title="WEBP"
-            onPress={() => handleFormat(SaveFormat.WEBP)}
+            onPress={() => {
+              handleFormat("webp"), handleFormatStyle("webp");
+            }}
           />
         </View>
         <View style={styles.imageSize}>

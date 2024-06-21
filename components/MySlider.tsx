@@ -8,7 +8,7 @@ type slider = {
   onChange?: () => void;
 };
 
-const MySlider = ({ style, onChange }: slider) => {
+const MySlider = ({ style }: slider) => {
   const { qualityValue, changeValue } = useSliderStore();
 
   return (
