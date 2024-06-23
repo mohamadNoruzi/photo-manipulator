@@ -9,7 +9,7 @@ type slider = {
 };
 
 const MySlider = ({ style }: slider) => {
-  const { qualityValue, changeValue } = useSliderStore();
+  const { qualityValue, changeQualityValue } = useSliderStore();
 
   return (
     <Slider
@@ -20,7 +20,7 @@ const MySlider = ({ style }: slider) => {
       maximumTrackTintColor="#393E46"
       step={0.1}
       onValueChange={(value) => {
-        changeValue(value);
+        changeQualityValue(value);
       }}
       value={qualityValue}
     />

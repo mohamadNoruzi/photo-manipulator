@@ -15,7 +15,7 @@ type Image = {
 
 type slider = {
   qualityValue: number;
-  changeValue: (val: number) => void;
+  changeQualityValue: (val: number) => void;
 };
 
 type format = {
@@ -52,7 +52,7 @@ const useImageStore = create<Image>()((set) => ({
 
 const useSliderStore = create<slider>()((set) => ({
   qualityValue: 1,
-  changeValue: (val) =>
+  changeQualityValue: (val) =>
     set(() => ({ qualityValue: Math.trunc(val * 10) / 10 })),
 }));
 

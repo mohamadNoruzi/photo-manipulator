@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import { SaveFormat } from "expo-image-manipulator";
@@ -11,9 +11,6 @@ import { Ionicons } from "@expo/vector-icons";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-  SharedValue,
-  FlipInEasyX,
-  FadeInDown,
   SlideInDown,
 } from "react-native-reanimated";
 import useCompress from "@/hooks/useCompress";
@@ -28,22 +25,13 @@ const manupolate = () => {
     imageSize,
     orginalUri,
     imageRatio,
-    constRatio,
   } = useImageStore();
-  const { qualityValue, changeValue } = useSliderStore();
+  const { qualityValue, changeQualityValue } = useSliderStore();
   const { format, setFormat } = useFormatStore();
+  const [animatedIndex, setAnimatedIndex] = useState("");
   const { compressImage } = useCompress();
   const Width = useSharedValue(0);
   const Height = useSharedValue(0);
-  const jpegtBackgroundColor = useSharedValue("#393E46");
-  const pngBackgroundColor = useSharedValue("#393E46");
-  const webpBackgroundColor = useSharedValue("#393E46");
-
-  const stylesArray = {
-    jpeg: jpegtBackgroundColor,
-    png: pngBackgroundColor,
-    webp: webpBackgroundColor,
-  };
 
   useLayoutEffect(() => {
     if (imageUri) {
@@ -64,12 +52,17 @@ const manupolate = () => {
     };
   });
 
-  const handleFormatStyle = (format: string) => {
-    if (`${stylesArray}.${format} = "#00ADB5"`) {
-      `${stylesArray}.${format} = "#393E46"`;
-    } else {
-      `${stylesArray}.${format} = "#00ADB5"`;
-    }
+  const handleFormatStyle = (format: "jpeg" | "png" | "webp") => {
+    setAnimatedIndex((prev) => {
+      if (prev === format) {
+        return "";
+      }
+      if (prev !== format) {
+        return format;
+      } else {
+        return format;
+      }
+    });
   };
 
   const pickImage = async () => {
@@ -92,11 +85,11 @@ const manupolate = () => {
       const height = result?.assets[0]?.height;
       addImageUri(uri);
       measureRatio(width, height);
-      console.log("pickImage", width);
+
       const fileInfo = await FileSystem.getInfoAsync(uri);
       setFormat(result?.assets[0]?.mimeType?.slice(6));
       addSize(fileInfo?.size);
-      changeValue(1);
+      changeQualityValue(1);
     }
   };
 
@@ -107,19 +100,14 @@ const manupolate = () => {
 
   const measureRatio = (iW: any, iH: any) => {
     if (imageRatio[0] == 0) {
-      console.log("measureRatio00", iH, iW);
     }
-    console.log("imageRatio", imageRatio);
 
-    console.log("measureRatio1", iH, iW);
     if (iW >= iH) {
       Width.value = imageRatio[1];
       Height.value = (iH / iW) * imageRatio[1];
-      console.log("measureRatio", Height, Width);
     } else {
       Height.value = imageRatio[0];
       Width.value = (iW / iH) * imageRatio[0];
-      console.log("measureRatio", Height, Width);
     }
   };
 
@@ -128,12 +116,9 @@ const manupolate = () => {
       event.nativeEvent.layout.height,
       event.nativeEvent.layout.width
     );
-    console.log("constRatioOnLay", constRatio);
-    console.log("onLayout", event.nativeEvent.layout.height);
   };
 
   let importRemoveButton = imageUri ? "Remove Image" : "Import Image";
-  console.log("imageuri", imageUri);
 
   return (
     <SafeAreaView edges={["bottom"]} style={styles.container}>
@@ -156,7 +141,7 @@ const manupolate = () => {
             activeOpacity={0.1}
             style={styles.qualityText}
             onPress={() => {
-              addImageUri(orginalUri), changeValue(1);
+              addImageUri(orginalUri), changeQualityValue(1);
             }}
           >
             <Ionicons name="refresh-outline" size={22} />
@@ -167,11 +152,27 @@ const manupolate = () => {
         </View>
         {/* Format section */}
         <View style={styles.format}>
+          {/* <Animated.View
+            style={
+              animatedIndex === "jpeg"
+                ? [styles.formatButton, { backgroundColor: "#00ADB5" }]
+                : [styles.formatButton]
+            }
+          >
+            <TouchableOpacity
+              onPress={() => {
+                handleFormatStyle("jpeg"), handleFormat("jpeg");
+              }}
+            >
+              <Text>test</Text>
+            </TouchableOpacity>
+          </Animated.View> */}
           <MyButton
-            Bstyle={[
-              styles.formatButton,
-              { backgroundColor: jpegtBackgroundColor.value },
-            ]}
+            Bstyle={
+              animatedIndex === "jpeg"
+                ? [styles.formatButton, { backgroundColor: "#00ADB5" }]
+                : [styles.formatButton]
+            }
             Tstyle={styles.formatText}
             title="JPEG"
             onPress={() => {
@@ -179,10 +180,11 @@ const manupolate = () => {
             }}
           />
           <MyButton
-            Bstyle={[
-              styles.formatButton,
-              { backgroundColor: pngBackgroundColor.value },
-            ]}
+            Bstyle={
+              animatedIndex === "png"
+                ? [styles.formatButton, { backgroundColor: "#00ADB5" }]
+                : [styles.formatButton]
+            }
             Tstyle={styles.formatText}
             title="PNG"
             onPress={() => {
@@ -190,10 +192,11 @@ const manupolate = () => {
             }}
           />
           <MyButton
-            Bstyle={[
-              styles.formatButton,
-              { backgroundColor: webpBackgroundColor.value },
-            ]}
+            Bstyle={
+              animatedIndex === "webp"
+                ? [styles.formatButton, { backgroundColor: "#00ADB5" }]
+                : [styles.formatButton]
+            }
             Tstyle={styles.formatText}
             title="WEBP"
             onPress={() => {
@@ -215,7 +218,9 @@ const manupolate = () => {
           ]}
           Tstyle={styles.removeButtonText}
           onPress={() => {
-            imageUri ? removeImageUri() : pickImage();
+            imageUri
+              ? (removeImageUri(), setAnimatedIndex(""), changeQualityValue(1))
+              : pickImage();
           }}
           title={importRemoveButton}
         ></MyButton>
@@ -246,6 +251,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
+    elevation: 4,
   },
   qualityText: {
     flexDirection: "row",

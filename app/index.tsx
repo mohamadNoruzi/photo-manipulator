@@ -11,6 +11,7 @@ import { getLocales } from "expo-localization";
 import i18n from "@/constants/LocalLang";
 import { Link, useNavigation } from "expo-router";
 import Colors from "@/constants/Colors";
+import { useSliderStore } from "@/state/store";
 
 // Set the locale once at the beginning of your app.
 i18n.locale = getLocales()[0].languageCode ?? "en";
@@ -19,7 +20,7 @@ i18n.enableFallback = true;
 
 const Page = () => {
   const [language, setLanguage] = useState("");
-  const navigate = useNavigation();
+  const { changeQualityValue } = useSliderStore();
 
   language ? (i18n.locale = language) : null;
 
@@ -41,7 +42,10 @@ const Page = () => {
       </View>
       <View style={styles.sectionTwo}>
         <Link href={"/manipulator"} style={styles.buttonContainer} asChild>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => changeQualityValue(1)}
+          >
             <Text style={styles.buttonText}>Import</Text>
           </TouchableOpacity>
         </Link>
