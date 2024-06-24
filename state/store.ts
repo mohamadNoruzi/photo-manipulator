@@ -23,6 +23,11 @@ type format = {
   setFormat: (value: SaveFormat | string | undefined) => void;
 };
 
+type language = {
+  lan: "en" | "fa";
+  setLan: (L: "en" | "fa") => void;
+};
+
 const useImageStore = create<Image>()((set) => ({
   imageUri: "",
   orginalUri: "",
@@ -61,4 +66,9 @@ const useFormatStore = create<format>()((set) => ({
   setFormat: (value) => set(() => ({ format: value })),
 }));
 
-export { useImageStore, useSliderStore, useFormatStore };
+const useLanguageStore = create<language>()((set) => ({
+  lan: "fa",
+  setLan: (L) => set(() => ({ lan: L })),
+}));
+
+export { useImageStore, useSliderStore, useFormatStore, useLanguageStore };

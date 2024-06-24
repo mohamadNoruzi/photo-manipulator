@@ -5,43 +5,32 @@ import {
   View,
   Dimensions,
 } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { getLocales } from "expo-localization";
 import i18n from "@/constants/LocalLang";
-import { Link, useNavigation } from "expo-router";
+import { Link } from "expo-router";
 import Colors from "@/constants/Colors";
-import { useSliderStore } from "@/state/store";
-
-// Set the locale once at the beginning of your app.
-i18n.locale = getLocales()[0].languageCode ?? "en";
-// When a value is missing from a language it'll fall back to another language with the key present.
-i18n.enableFallback = true;
+import { useLanguageStore, useSliderStore } from "@/state/store";
 
 const Page = () => {
-  const [language, setLanguage] = useState("");
   const { changeQualityValue } = useSliderStore();
-
-  language ? (i18n.locale = language) : null;
-
-  const handleLan = () => {
-    if (language == "en" || language == "") {
-      setLanguage("fa");
-    } else {
-      setLanguage("en");
-    }
-  };
+  const { lan } = useLanguageStore();
+  console.log("lanIndex", lan);
 
   return (
     <SafeAreaProvider style={styles.container}>
       <View style={styles.sectionOne}>
-        <TouchableOpacity onPress={handleLan}>
+        <TouchableOpacity>
           <Text>Simply resize or change format your image</Text>
-          {/* <Text>{i18n.t("welcome")}</Text> */}
+          <Text>{i18n.t("welcome")}</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.sectionTwo}>
-        <Link href={"/manipulator"} style={styles.buttonContainer} asChild>
+        <Link
+          href={{ pathname: "/manipulator" }}
+          style={styles.buttonContainer}
+          asChild
+        >
           <TouchableOpacity
             style={styles.button}
             onPress={() => changeQualityValue(1)}

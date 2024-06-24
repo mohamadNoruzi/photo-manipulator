@@ -14,6 +14,7 @@ import MyButton from "./MyButton";
 import { useImageStore } from "@/state/store";
 import useSave from "@/hooks/useSave";
 import ConfettiCannon from "react-native-confetti-cannon";
+import i18n from "@/constants/LocalLang";
 
 const ManipulatorHeader = () => {
   const navigation = useNavigation();
@@ -39,7 +40,11 @@ const ManipulatorHeader = () => {
         >
           <Ionicons name="arrow-back" size={24} />
         </TouchableOpacity>
-        <MyButton title="Save" onPress={handleSave} Bstyle={styles.saveButton}>
+        <MyButton
+          title={i18n.t("save")}
+          onPress={handleSave}
+          Bstyle={styles.saveButton}
+        >
           <Ionicons name="save-outline" size={24} />
         </MyButton>
         <Modal visible={modalVisiblity} animationType="fade" transparent={true}>
@@ -92,6 +97,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     gap: 4,
+    elevation: 3,
   },
   modalContainer: {
     backgroundColor: "rgba(0, 0, 0, 0.7)",

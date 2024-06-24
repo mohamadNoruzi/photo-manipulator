@@ -3,7 +3,12 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import { SaveFormat } from "expo-image-manipulator";
-import { useImageStore, useSliderStore, useFormatStore } from "@/state/store";
+import {
+  useImageStore,
+  useSliderStore,
+  useFormatStore,
+  useLanguageStore,
+} from "@/state/store";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MySlider from "@/components/MySlider";
 import MyButton from "@/components/MyButton";
@@ -14,6 +19,7 @@ import Animated, {
   SlideInDown,
 } from "react-native-reanimated";
 import useCompress from "@/hooks/useCompress";
+import i18n from "@/constants/LocalLang";
 
 const manupolate = () => {
   const {
@@ -32,6 +38,9 @@ const manupolate = () => {
   const { compressImage } = useCompress();
   const Width = useSharedValue(0);
   const Height = useSharedValue(0);
+  const { lan } = useLanguageStore();
+
+  // console.log("lanManipulator", lan);
 
   useLayoutEffect(() => {
     if (imageUri) {
@@ -118,7 +127,9 @@ const manupolate = () => {
     );
   };
 
-  let importRemoveButton = imageUri ? "Remove Image" : "Import Image";
+  let importRemoveButton = imageUri
+    ? i18n.t("removeImage")
+    : i18n.t("importImage");
 
   return (
     <SafeAreaView edges={["bottom"]} style={styles.container}>
@@ -145,28 +156,15 @@ const manupolate = () => {
             }}
           >
             <Ionicons name="refresh-outline" size={22} />
-            <Text style={{ fontSize: 18 }}>Quality: {qualityValue}</Text>
+            <Text style={{ fontSize: 18 }}>
+              {i18n.t("quality")}: {qualityValue}
+            </Text>
           </TouchableOpacity>
           {/* Slider  */}
           <MySlider />
         </View>
         {/* Format section */}
         <View style={styles.format}>
-          {/* <Animated.View
-            style={
-              animatedIndex === "jpeg"
-                ? [styles.formatButton, { backgroundColor: "#00ADB5" }]
-                : [styles.formatButton]
-            }
-          >
-            <TouchableOpacity
-              onPress={() => {
-                handleFormatStyle("jpeg"), handleFormat("jpeg");
-              }}
-            >
-              <Text>test</Text>
-            </TouchableOpacity>
-          </Animated.View> */}
           <MyButton
             Bstyle={
               animatedIndex === "jpeg"
@@ -292,6 +290,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#00ADB5",
     borderRadius: 10,
     height: 50,
+    elevation: 2,
   },
   removeButtonText: {
     color: "white",
