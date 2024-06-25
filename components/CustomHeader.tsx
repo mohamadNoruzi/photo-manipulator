@@ -51,7 +51,7 @@ const CustomHeader = () => {
   const { setLan } = useLanguageStore();
 
   const paddingLeft = useSharedValue(0);
-  const backgroundColor = useSharedValue("grey");
+  const backgroundColor = useSharedValue("rgba(0, 0, 0, 0.7)");
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -61,7 +61,7 @@ const CustomHeader = () => {
 
   const moveToggle = () => {
     let padding = status ? 0 : 50;
-    let color = status ? "grey" : "transparent";
+    let color = status ? "rgba(0, 0, 0, 0.7)" : "rgba(0, 0, 0, 0)";
     paddingLeft.value = withDelay(0.1, withTiming(padding, { duration: 500 }));
     backgroundColor.value = withDelay(
       0.1,

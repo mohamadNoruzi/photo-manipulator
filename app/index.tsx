@@ -11,6 +11,7 @@ import i18n from "@/constants/LocalLang";
 import { Link } from "expo-router";
 import Colors from "@/constants/Colors";
 import { useLanguageStore, useSliderStore } from "@/state/store";
+import Animated, { FadeIn, FadeInLeft } from "react-native-reanimated";
 
 const Page = () => {
   const { changeQualityValue } = useSliderStore();
@@ -20,10 +21,14 @@ const Page = () => {
   return (
     <SafeAreaProvider style={styles.container}>
       <View style={styles.sectionOne}>
-        <TouchableOpacity>
-          <Text>Simply resize or change format your image</Text>
-          <Text>{i18n.t("welcome")}</Text>
-        </TouchableOpacity>
+        <View style={{ paddingHorizontal: 12, gap: 30 }}>
+          <Text style={{ fontSize: 30, fontWeight: "bold" }}>
+            {i18n.t("greeting1")}
+          </Text>
+          <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+            {i18n.t("greeting2")}
+          </Text>
+        </View>
       </View>
       <View style={styles.sectionTwo}>
         <Link
@@ -35,7 +40,7 @@ const Page = () => {
             style={styles.button}
             onPress={() => changeQualityValue(1)}
           >
-            <Text style={styles.buttonText}>Import</Text>
+            <Text style={styles.buttonText}>{i18n.t("getStarted")}</Text>
           </TouchableOpacity>
         </Link>
       </View>
