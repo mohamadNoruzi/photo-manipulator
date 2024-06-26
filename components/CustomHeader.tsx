@@ -7,7 +7,6 @@ import {
 import React, { useLayoutEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Animated, {
-  FadeIn,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -51,7 +50,8 @@ const CustomHeader = () => {
   const { setLan } = useLanguageStore();
 
   const paddingLeft = useSharedValue(0);
-  const backgroundColor = useSharedValue("rgba(0, 0, 0, 0.7)");
+  const backgroundColor = useSharedValue("rgba(0, 0, 0, 1)");
+  const TextBackgroundColor = useSharedValue("rgba(0, 0, 0, 1)");
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -61,11 +61,16 @@ const CustomHeader = () => {
 
   const moveToggle = () => {
     let padding = status ? 0 : 50;
-    let color = status ? "rgba(0, 0, 0, 0.7)" : "rgba(0, 0, 0, 0)";
+    let Bcolor = status ? "rgba(0, 0, 0, 1)" : "rgba(0, 0, 0, 0)";
+    TextBackgroundColor.value = "rgba(0, 0, 0, 0)";
     paddingLeft.value = withDelay(0.1, withTiming(padding, { duration: 500 }));
     backgroundColor.value = withDelay(
       0.1,
-      withTiming(color, { duration: 500 })
+      withTiming(Bcolor, { duration: 500 })
+    );
+    TextBackgroundColor.value = withDelay(
+      400,
+      withTiming("rgba(0, 0, 0, 1)", { duration: 400 })
     );
     setStatus(!status);
 
@@ -90,37 +95,27 @@ const CustomHeader = () => {
       <View style={styles.container}>
         <View style={styles.toggleBox}>
           <TouchableOpacity onPress={moveToggle} activeOpacity={1}>
-            {status ? (
-              <ImageBackground
-                source={require("../assets/images/toggle.jpg")}
-                style={styles.backgroundImage}
-                resizeMode="cover"
+            <ImageBackground
+              source={require("../assets/images/toggle.jpg")}
+              style={styles.backgroundImage}
+              resizeMode="cover"
+            >
+              <Animated.View
+                style={[
+                  styles.layer,
+                  animatedStyle,
+                  { backgroundColor: backgroundColor },
+                ]}
               >
-                <Animated.View style={[styles.layer, animatedStyle]}>
-                  <View style={styles.circle}>
-                    <Animated.Text
-                      style={styles.Text}
-                      entering={FadeIn.duration(1000).delay(100)}
-                    >
-                      {circleText}
-                    </Animated.Text>
-                  </View>
-                </Animated.View>
-              </ImageBackground>
-            ) : (
-              <Animated.View style={{ backgroundColor: backgroundColor }}>
-                <Animated.View style={[styles.layer, animatedStyle]}>
-                  <View style={styles.circle}>
-                    <Animated.Text
-                      style={styles.Text}
-                      entering={FadeIn.duration(1000).delay(100)}
-                    >
-                      {circleText}
-                    </Animated.Text>
-                  </View>
-                </Animated.View>
+                <View style={styles.circle}>
+                  <Animated.Text
+                    style={[styles.Text, { color: TextBackgroundColor }]}
+                  >
+                    {circleText}
+                  </Animated.Text>
+                </View>
               </Animated.View>
-            )}
+            </ImageBackground>
           </TouchableOpacity>
         </View>
       </View>

@@ -15,6 +15,8 @@ const translations = {
     greeting1: "Transform your photos effortlessly with",
     greeting2:
       "Our app provides simple and powerful tools to change the format and size of your pictures",
+    modal1: "The Picture has been saved in below directory:",
+    modal2: "Internal Storage/Pictures",
   },
   fa: {
     welcome: "سلام",
@@ -26,6 +28,8 @@ const translations = {
     greeting1: "عکس‌های خود را به سادگی با تغییر دهید",
     greeting2:
       "برنامه ما ابزارهای ساده و قدرتمندی را برای تغییر قالب و اندازه تصاویر شما ارائه می دهد",
+    modal1: "تصویر در مسیر زیر ذخیره شده است:",
+    modal2: "Internal Storage/Pictures",
   },
 };
 const i18n = new I18n(translations);

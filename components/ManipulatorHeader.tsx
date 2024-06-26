@@ -47,22 +47,43 @@ const ManipulatorHeader = () => {
         >
           <Ionicons name="save-outline" size={24} />
         </MyButton>
+        {/* modal */}
         <Modal visible={modalVisiblity} animationType="fade" transparent={true}>
           <TouchableOpacity
             style={styles.modalContainer}
             onPress={() => setModalVisiblity(false)}
             activeOpacity={0}
           >
-            <ConfettiCannon
-              count={120}
-              origin={{ x: -10, y: 0 }}
-              fallSpeed={2000}
-              fadeOut={true}
-              autoStart={true}
-            />
+            <View style={{ zIndex: 10, width: "100%", height: "100%" }}>
+              <ConfettiCannon
+                count={120}
+                origin={{ x: -10, y: 0 }}
+                fallSpeed={2500}
+                fadeOut={true}
+                autoStart={true}
+              />
+            </View>
             <View style={styles.Modal}>
-              <Text>MOdaalll</Text>
-              <Button onPress={() => setModalVisiblity(false)} title="desmis" />
+              <TouchableOpacity
+                style={{ flex: 1, paddingHorizontal: 20, paddingTop: 40 }}
+                onPress={() => setModalVisiblity(false)}
+              >
+                <Text
+                  style={{
+                    fontSize: 80,
+                    alignSelf: "center",
+                    marginBottom: 80,
+                  }}
+                >
+                  🎉
+                </Text>
+                <Text style={{ fontSize: 22 }}>{i18n.t("modal1")}</Text>
+                <Text
+                  style={{ fontSize: 20, fontWeight: "bold", marginTop: 60 }}
+                >
+                  {i18n.t("modal2")}
+                </Text>
+              </TouchableOpacity>
             </View>
           </TouchableOpacity>
         </Modal>
@@ -105,7 +126,7 @@ const styles = StyleSheet.create({
   },
   Modal: {
     width: "80%",
-    height: 500,
+    height: 450,
     justifyContent: "space-between",
     alignContent: "space-between",
     backgroundColor: "white",

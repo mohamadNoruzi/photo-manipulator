@@ -11,9 +11,9 @@ export default function useSave() {
         await requestPermission();
       }
       const asset = await MediaLibrary.createAssetAsync(imageUri);
-      const album = await MediaLibrary.getAlbumAsync("Download");
+      const album = await MediaLibrary.getAlbumAsync("Pictures");
       if (album == null) {
-        await MediaLibrary.createAlbumAsync("Download", asset, false);
+        await MediaLibrary.createAlbumAsync("Pictures", asset, false);
       } else {
         await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
       }
