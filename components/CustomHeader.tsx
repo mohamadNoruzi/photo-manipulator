@@ -19,9 +19,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const storeData = async (value: string) => {
   try {
     await AsyncStorage.setItem("stored-language", value);
-  } catch (e) {
-    console.log("first", e);
-  }
+  } catch (e) {}
 };
 
 const getData = async () => {
@@ -45,7 +43,6 @@ const CustomHeader = () => {
     fetchStoredLan();
   }, []);
 
-  console.log("status", status);
   const [language, setLanguage] = useState("");
   const { setLan } = useLanguageStore();
 

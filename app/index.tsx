@@ -9,14 +9,11 @@ import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import i18n from "@/constants/LocalLang";
 import { Link } from "expo-router";
-import Colors from "@/constants/Colors";
 import { useLanguageStore, useSliderStore } from "@/state/store";
-import Animated, { FadeIn, FadeInLeft } from "react-native-reanimated";
 
 const Page = () => {
   const { changeQualityValue } = useSliderStore();
   const { lan } = useLanguageStore();
-  console.log("lanIndex", lan);
 
   return (
     <SafeAreaProvider style={styles.container}>
@@ -44,9 +41,7 @@ const Page = () => {
           </TouchableOpacity>
         </Link>
       </View>
-      <View style={styles.sectionThree}>
-        <Text>index</Text>
-      </View>
+      <View style={styles.sectionThree}></View>
     </SafeAreaProvider>
   );
 };
@@ -55,14 +50,14 @@ const styles = StyleSheet.create({
   container: {},
   sectionOne: {
     flex: 2,
-    backgroundColor: Colors.plateThree.lgrey,
+    backgroundColor: "#F1F0E8",
     justifyContent: "center",
     alignContent: "center",
     padding: 12,
   },
   sectionTwo: {
     flex: 2,
-    backgroundColor: Colors.plateThree.lgrey,
+    backgroundColor: "#F1F0E8",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -84,7 +79,7 @@ const styles = StyleSheet.create({
   },
   sectionThree: {
     flex: 1,
-    backgroundColor: Colors.plateThree.lgrey,
+    backgroundColor: "#F1F0E8",
   },
 });
 

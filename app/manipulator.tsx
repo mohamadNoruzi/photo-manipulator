@@ -2,7 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
-import { SaveFormat } from "expo-image-manipulator";
+
 import {
   useImageStore,
   useSliderStore,
@@ -39,8 +39,6 @@ const manupolate = () => {
   const Width = useSharedValue(0);
   const Height = useSharedValue(0);
   const { lan } = useLanguageStore();
-
-  // console.log("lanManipulator", lan);
 
   useLayoutEffect(() => {
     if (imageUri) {

@@ -3,7 +3,6 @@ import { getLocales } from "expo-localization";
 import { useLanguageStore } from "@/state/store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// Set the key-value pairs for the different languages you want to support.
 const translations = {
   en: {
     welcome: "Hello",
@@ -42,12 +41,9 @@ const getData = async () => {
   try {
     const storedLan = await AsyncStorage.getItem("stored-language");
     if (storedLan !== null) {
-      console.log("storedLan", storedLan);
       i18n.locale = storedLan;
     }
-  } catch (e) {
-    console.log("localLang", e);
-  }
+  } catch (e) {}
 };
 
 getData();

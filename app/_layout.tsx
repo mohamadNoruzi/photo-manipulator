@@ -5,11 +5,8 @@ import CustomHeader from "@/components/CustomHeader";
 import ManipulatorHeader from "@/components/ManipulatorHeader";
 
 export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: "index",
 };
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 
 export default function RootLayoutNav() {
   return (

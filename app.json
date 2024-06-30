@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "PhotoManipulator",
-    "slug": "PhotoManipulator",
-    "version": "1.0.0",
+    "name": "FormatResizer",
+    "slug": "formatresizer",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -16,6 +16,7 @@
       "supportsTablet": true
     },
     "android": {
+      "enableDangerousExperimentalLeanBuilds": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -52,8 +53,9 @@
         "origin": false
       },
       "eas": {
-        "projectId": "954e49d0-19d7-4aab-95ca-9b6666f3f4ee"
+        "projectId": "fb4efa89-2504-472e-8b25-7a5dbda77537"
       }
-    }
+    },
+    "owner": "mohammadnorozy77"
   }
 }
