@@ -103,6 +103,7 @@ const manupolate = () => {
   const handleFormat = (key: any) => {
     setFormat(key);
     addImageUri(orginalUri);
+    compressImage();
   };
 
   const measureRatio = (iW: any, iH: any) => {

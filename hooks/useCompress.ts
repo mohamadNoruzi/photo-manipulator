@@ -19,9 +19,5 @@ export default function useCompress() {
     addSize(fileInfo?.size);
   };
 
-  const handleFormat = (key: any) => {
-    setFormat(key);
-    addImageUri(orginalUri);
-  };
   return { compressImage };
 }
