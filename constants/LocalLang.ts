@@ -11,7 +11,7 @@ const translations = {
     importImage: "Import Image",
     save: "Save",
     getStarted: "Get Started",
-    greeting1: "Transform your photos effortlessly with",
+    greeting1: "Transform your photos effortlessly",
     greeting2:
       "Our app provides simple and powerful tools to change the format and size of your pictures",
     modal1: "The Picture has been saved in below directory:",
@@ -24,7 +24,7 @@ const translations = {
     importImage: "انتخاب تصویر",
     save: "ذخیره",
     getStarted: "شروع کنید",
-    greeting1: "عکس‌های خود را به سادگی با تغییر دهید",
+    greeting1: "عکس‌های خود را به سادگی تغییر دهید",
     greeting2:
       "برنامه ما ابزارهای ساده و قدرتمندی را برای تغییر قالب و اندازه تصاویر شما ارائه می دهد",
     modal1: "تصویر در مسیر زیر ذخیره شده است:",
