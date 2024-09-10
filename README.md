@@ -8,4 +8,4 @@ You can see the released app in [Cafe Bazar](https://cafebazaar.ir/app/com.moham
 
 ![app](assets/images/sc3.png)
 
-<img src="assets/images/sc1" width="500" />
+<img src="assets/images/sc1.png" width="500" />
