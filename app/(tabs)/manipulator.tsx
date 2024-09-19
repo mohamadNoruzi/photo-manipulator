@@ -3,21 +3,12 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 
-import {
-  useImageStore,
-  useSliderStore,
-  useFormatStore,
-  useLanguageStore,
-} from "@/state/store";
+import { useImageStore, useSliderStore, useFormatStore, useLanguageStore } from "@/state/store";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MySlider from "@/components/MySlider";
 import MyButton from "@/components/MyButton";
 import { Ionicons } from "@expo/vector-icons";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  SlideInDown,
-} from "react-native-reanimated";
+import Animated, { useSharedValue, useAnimatedStyle, SlideInDown } from "react-native-reanimated";
 import useCompress from "@/hooks/useCompress";
 import i18n from "@/constants/LocalLang";
 
@@ -84,7 +75,9 @@ const manupolate = () => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       quality: 1,
+      allowsMultipleSelection: true,
     });
+    // console.log(result.?assets[1]);
 
     if (!result.canceled) {
       const uri = result?.assets[0]?.uri;
@@ -93,7 +86,7 @@ const manupolate = () => {
       addImageUri(uri);
       measureRatio(width, height);
 
-      const fileInfo = await FileSystem.getInfoAsync(uri);
+      const fileInfo: any = await FileSystem.getInfoAsync(uri);
       setFormat(result?.assets[0]?.mimeType?.slice(6));
       addSize(fileInfo?.size);
       changeQualityValue(1);
@@ -120,15 +113,10 @@ const manupolate = () => {
   };
 
   const onLayout = (event: any) => {
-    setImageRatio(
-      event.nativeEvent.layout.height,
-      event.nativeEvent.layout.width
-    );
+    setImageRatio(event.nativeEvent.layout.height, event.nativeEvent.layout.width);
   };
 
-  let importRemoveButton = imageUri
-    ? i18n.t("removeImage")
-    : i18n.t("importImage");
+  let importRemoveButton = imageUri ? i18n.t("removeImage") : i18n.t("importImage");
 
   return (
     <SafeAreaView edges={["bottom"]} style={styles.container}>
@@ -136,10 +124,7 @@ const manupolate = () => {
         <TouchableOpacity>
           {imageUri ? (
             <>
-              <Animated.Image
-                source={{ uri: imageUri }}
-                style={[animatedStyle, styles.image]}
-              />
+              <Animated.Image source={{ uri: imageUri }} style={[animatedStyle, styles.image]} />
             </>
           ) : null}
         </TouchableOpacity>
@@ -202,22 +187,17 @@ const manupolate = () => {
           />
         </View>
         <View style={styles.imageSize}>
-          <Text style={{ fontSize: 16 }}>
-            {(imageSize / 1000).toFixed(1)} KB
-          </Text>
+          <Text style={{ fontSize: 16 }}>{(imageSize / 1000).toFixed(1)} KB</Text>
         </View>
         {/* Remove button */}
 
         <MyButton
-          Bstyle={[
-            styles.removeButton,
-            { backgroundColor: imageUri ? "red" : "#00ADB5" },
-          ]}
+          Bstyle={[styles.removeButton, { backgroundColor: imageUri ? "red" : "#00ADB5" }]}
           Tstyle={styles.removeButtonText}
           onPress={() => {
             imageUri
-              ? (removeImageUri(), setAnimatedIndex(""), changeQualityValue(1))
-              : pickImage();
+              ? (removeImageUri(), setAnimatedIndex(""), changeQualityValue(1), setFormat(""))
+              : (pickImage(), setFormat(""), setAnimatedIndex(""));
           }}
           title={importRemoveButton}
         ></MyButton>

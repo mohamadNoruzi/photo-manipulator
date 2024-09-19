@@ -10,7 +10,7 @@ import ConfettiCannon from "react-native-confetti-cannon";
 import i18n from "@/constants/LocalLang";
 
 const ManipulatorHeader = () => {
-  const navigation = useNavigation();
+  const navigation: any = useNavigation();
   const { removeImageUri } = useImageStore();
   const { getAlbums } = useSave();
   const { imageUri } = useImageStore();
@@ -28,16 +28,12 @@ const ManipulatorHeader = () => {
         <TouchableOpacity
           style={styles.arrow}
           onPress={() => {
-            navigation.goBack(), removeImageUri();
+            navigation.popToTop(), removeImageUri();
           }}
         >
           <Ionicons name="arrow-back" size={24} />
         </TouchableOpacity>
-        <MyButton
-          title={i18n.t("save")}
-          onPress={handleSave}
-          Bstyle={styles.saveButton}
-        >
+        <MyButton title={i18n.t("save")} onPress={handleSave} Bstyle={styles.saveButton}>
           <Ionicons name="save-outline" size={24} />
         </MyButton>
         {/* modal */}
@@ -71,9 +67,7 @@ const ManipulatorHeader = () => {
                   🎉
                 </Text>
                 <Text style={{ fontSize: 22 }}>{i18n.t("modal1")}</Text>
-                <Text
-                  style={{ fontSize: 20, fontWeight: "bold", marginTop: 60 }}
-                >
+                <Text style={{ fontSize: 20, fontWeight: "bold", marginTop: 60 }}>
                   {i18n.t("modal2")}
                 </Text>
               </TouchableOpacity>

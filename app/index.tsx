@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Dimensions,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Dimensions } from "react-native";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import i18n from "@/constants/LocalLang";
@@ -19,24 +13,13 @@ const Page = () => {
     <SafeAreaProvider style={styles.container}>
       <View style={styles.sectionOne}>
         <View style={{ paddingHorizontal: 12, gap: 30 }}>
-          <Text style={{ fontSize: 30, fontWeight: "bold" }}>
-            {i18n.t("greeting1")}
-          </Text>
-          <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-            {i18n.t("greeting2")}
-          </Text>
+          <Text style={{ fontSize: 30, fontWeight: "bold" }}>{i18n.t("greeting1")}</Text>
+          <Text style={{ fontSize: 18, fontWeight: "bold" }}>{i18n.t("greeting2")}</Text>
         </View>
       </View>
       <View style={styles.sectionTwo}>
-        <Link
-          href={{ pathname: "/manipulator" }}
-          style={styles.buttonContainer}
-          asChild
-        >
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => changeQualityValue(1)}
-          >
+        <Link href={{ pathname: "/manipulator" }} style={styles.buttonContainer} asChild>
+          <TouchableOpacity style={styles.button} onPress={() => changeQualityValue(1)}>
             <Text style={styles.buttonText}>{i18n.t("getStarted")}</Text>
           </TouchableOpacity>
         </Link>

@@ -1,8 +1,6 @@
 import { Stack } from "expo-router";
 import React from "react";
-import "react-native-reanimated";
 import CustomHeader from "@/components/CustomHeader";
-import ManipulatorHeader from "@/components/ManipulatorHeader";
 
 export const unstable_settings = {
   initialRouteName: "index",
@@ -18,11 +16,9 @@ export default function RootLayoutNav() {
         }}
       />
       <Stack.Screen
-        name="manipulator"
+        name="(tabs)"
         options={{
-          presentation: "modal",
-          headerTitle: "",
-          header: () => <ManipulatorHeader />,
+          headerShown: false,
         }}
       />
     </Stack>

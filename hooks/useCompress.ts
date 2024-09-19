@@ -14,7 +14,7 @@ export default function useCompress() {
       [], // adjust width as needed
       { compress: qualityValue, format: format }
     );
-    const fileInfo = await FileSystem.getInfoAsync(manipResult.uri);
+    const fileInfo: any = await FileSystem.getInfoAsync(manipResult.uri);
     addImageUri(manipResult.uri);
     addSize(fileInfo?.size);
   };
