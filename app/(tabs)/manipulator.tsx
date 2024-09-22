@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
   },
   removeButton: {
     width: "auto",
-    marginHorizontal: 12,
+    marginHorizontal: 42,
     marginTop: 0,
     marginBottom: 10,
     backgroundColor: "#00ADB5",
