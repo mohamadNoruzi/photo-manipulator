@@ -3,7 +3,7 @@ import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import i18n from "@/constants/LocalLang";
 import { Link } from "expo-router";
-import { useLanguageStore, useSliderStore } from "@/state/store";
+import { useLanguageStore, useSliderStore } from "@/state/storeSingle";
 
 const Page = () => {
   const { changeQualityValue } = useSliderStore();

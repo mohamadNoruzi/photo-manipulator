@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  StyleProp,
-  TextStyle,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, StyleProp, TextStyle } from "react-native";
 import React from "react";
 
 type myType = {

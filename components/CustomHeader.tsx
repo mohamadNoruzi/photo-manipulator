@@ -1,9 +1,4 @@
-import {
-  ImageBackground,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ImageBackground, StyleSheet, TouchableOpacity, View } from "react-native";
 import React, { useLayoutEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Animated, {
@@ -13,7 +8,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import i18n from "@/constants/LocalLang";
-import { useLanguageStore } from "@/state/store";
+import { useLanguageStore } from "@/state/storeSingle";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const storeData = async (value: string) => {
@@ -61,14 +56,8 @@ const CustomHeader = () => {
     let Bcolor = status ? "rgba(0, 0, 0, 1)" : "rgba(0, 0, 0, 0)";
     TextBackgroundColor.value = "rgba(0, 0, 0, 0)";
     paddingLeft.value = withDelay(0.1, withTiming(padding, { duration: 500 }));
-    backgroundColor.value = withDelay(
-      0.1,
-      withTiming(Bcolor, { duration: 500 })
-    );
-    TextBackgroundColor.value = withDelay(
-      400,
-      withTiming("rgba(0, 0, 0, 1)", { duration: 400 })
-    );
+    backgroundColor.value = withDelay(0.1, withTiming(Bcolor, { duration: 500 }));
+    TextBackgroundColor.value = withDelay(400, withTiming("rgba(0, 0, 0, 1)", { duration: 400 }));
     setStatus(!status);
 
     // change language
@@ -98,16 +87,10 @@ const CustomHeader = () => {
               resizeMode="cover"
             >
               <Animated.View
-                style={[
-                  styles.layer,
-                  animatedStyle,
-                  { backgroundColor: backgroundColor },
-                ]}
+                style={[styles.layer, animatedStyle, { backgroundColor: backgroundColor }]}
               >
                 <View style={styles.circle}>
-                  <Animated.Text
-                    style={[styles.Text, { color: TextBackgroundColor }]}
-                  >
+                  <Animated.Text style={[styles.Text, { color: TextBackgroundColor }]}>
                     {circleText}
                   </Animated.Text>
                 </View>

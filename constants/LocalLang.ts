@@ -1,6 +1,6 @@
 import { I18n } from "i18n-js";
 import { getLocales } from "expo-localization";
-import { useLanguageStore } from "@/state/store";
+import { useLanguageStore } from "@/state/storeSingle";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const translations = {

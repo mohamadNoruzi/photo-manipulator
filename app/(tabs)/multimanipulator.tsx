@@ -1,23 +1,38 @@
 import { StyleSheet, View, Text, TextInput, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import MyButton from "@/components/MyButton";
 import * as ImagePicker from "expo-image-picker";
-import * as FileSystem from "expo-file-system";
 import { Ionicons } from "@expo/vector-icons";
 import { SelectList } from "react-native-dropdown-select-list";
+import { useImagesDetail, imageDetail } from "@/state/storeMulti";
+import StartMultiChanges from "@/components/StartMultiChanges";
+import { SaveFormat } from "expo-image-manipulator";
 
 const multimanipulator = () => {
   const [maxQuality, setMaxQuality] = useState<string>();
-  const [selected, setSelected] = useState<string>();
+  const [selectedFormat, setSelectedFormat] = useState<string>();
+  const {
+    detailsArray,
+    MaxQualitySize,
+    format,
+    compressDetailArray,
+    setImagesDetail,
+    removeImagesDetail,
+    setMaxQualitySize,
+    setFormat,
+  } = useImagesDetail();
 
-  const formatData = [{ value: "jpeg" }, { value: "png" }, { value: "webp" }];
+  const formatData = [
+    { value: SaveFormat.JPEG },
+    { value: SaveFormat.PNG },
+    { value: SaveFormat.WEBP },
+  ];
 
   const handleRemoveMaxQuality = () => {
-    setMaxQuality("");
+    setMaxQualitySize(0);
   };
 
   const pickImage = async () => {
-    // removeImageUri();
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
       alert("Sorry, we need camera roll permissions to make this work!");
@@ -26,27 +41,27 @@ const multimanipulator = () => {
 
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
+      allowsEditing: false,
       quality: 1,
       allowsMultipleSelection: true,
     });
-    // console.log(result?.assets[1]);
+
     if (!result.canceled) {
-      result?.assets.map(async (asset, index) => {
-        const uri = asset.uri;
-        const fileInfo: any = await FileSystem.getInfoAsync(uri);
+      result?.assets.map(async (asset) => {
+        let imagesDetail: imageDetail = {
+          name: asset.fileName,
+          format: asset.mimeType?.slice(6),
+          height: asset.height,
+          width: asset.width,
+          uri: asset.uri,
+        };
+        setImagesDetail(imagesDetail);
       });
-      const uri = result?.assets[0]?.uri;
-      // console.log(result?.assets.length);
-      // addImageUri(uri);
-      const fileInfo: any = await FileSystem.getInfoAsync(uri);
-      // setFormat(result?.assets[0]?.mimeType?.slice(6));
-      // addSize(fileInfo?.size);
-      // changeQualityValue(1);
     }
   };
 
   const handlePickImage = () => {
+    removeImagesDetail();
     pickImage();
   };
 
@@ -69,8 +84,8 @@ const multimanipulator = () => {
           </View>
           <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
             <TextInput
-              value={maxQuality}
-              onChangeText={(val) => setMaxQuality(val)}
+              value={MaxQualitySize === 0 ? "" : String(MaxQualitySize)}
+              onChangeText={(val) => setMaxQualitySize(Number(val))}
               style={styles.MaxQualityInput}
               placeholder="Like 250"
               keyboardType="numeric"
@@ -88,17 +103,19 @@ const multimanipulator = () => {
       {/* Format */}
       <View style={styles.format}>
         <SelectList
-          setSelected={(val: string) => setSelected(val)}
+          setSelected={(val: string) => setFormat(val)}
           data={formatData}
           save="value"
           placeholder="Select Format"
           boxStyles={styles.boxStyles}
-          dropdownStyles={{ backgroundColor: "#c5c5c5" }}
+          dropdownStyles={{ backgroundColor: "#c5c5c5", height: 130 }}
           searchPlaceholder=""
         />
       </View>
       {/* save */}
-      <View style={styles.save}></View>
+      <View style={styles.save}>
+        <StartMultiChanges />
+      </View>
     </View>
   );
 };

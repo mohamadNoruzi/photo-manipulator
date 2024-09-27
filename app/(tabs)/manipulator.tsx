@@ -3,7 +3,12 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 
-import { useImageStore, useSliderStore, useFormatStore, useLanguageStore } from "@/state/store";
+import {
+  useImageStore,
+  useSliderStore,
+  useFormatStore,
+  useLanguageStore,
+} from "@/state/storeSingle";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MySlider from "@/components/MySlider";
 import MyButton from "@/components/MyButton";
@@ -75,9 +80,8 @@ const manupolate = () => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       quality: 1,
-      allowsMultipleSelection: true,
+      allowsMultipleSelection: false,
     });
-    // console.log(result.?assets[1]);
 
     if (!result.canceled) {
       const uri = result?.assets[0]?.uri;

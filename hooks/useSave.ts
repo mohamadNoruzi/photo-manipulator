@@ -1,4 +1,4 @@
-import { useImageStore } from "@/state/store";
+import { useImageStore } from "@/state/storeSingle";
 import * as MediaLibrary from "expo-media-library";
 
 export default function useSave() {

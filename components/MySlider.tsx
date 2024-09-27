@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, StyleProp, TextStyle } from "react-native";
 import React from "react";
 import Slider from "@react-native-community/slider";
-import { useSliderStore } from "@/state/store";
+import { useSliderStore } from "@/state/storeSingle";
 
 type slider = {
   style?: StyleProp<TextStyle>;

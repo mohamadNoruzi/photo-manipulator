@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import MyButton from "./MyButton";
-import { useImageStore } from "@/state/store";
+import { useImageStore } from "@/state/storeSingle";
 import useSave from "@/hooks/useSave";
 import ConfettiCannon from "react-native-confetti-cannon";
 import i18n from "@/constants/LocalLang";
