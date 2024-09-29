@@ -1,5 +1,5 @@
-import { StyleSheet, View, Text, TextInput, TouchableOpacity } from "react-native";
-import React, { useRef, useState } from "react";
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Dimensions } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
 import MyButton from "@/components/MyButton";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
@@ -9,8 +9,8 @@ import StartMultiChanges from "@/components/StartMultiChanges";
 import { SaveFormat } from "expo-image-manipulator";
 
 const multimanipulator = () => {
-  const [maxQuality, setMaxQuality] = useState<string>();
-  const [selectedFormat, setSelectedFormat] = useState<string>();
+  const parentStartPointLayout = useRef<any>();
+  const layoutRef = useRef<any>();
   const {
     detailsArray,
     MaxQualitySize,
@@ -65,6 +65,19 @@ const multimanipulator = () => {
     pickImage();
   };
 
+  const parentLayout = () => {
+    layoutRef.current &&
+      layoutRef.current.measureInWindow((_: number, y: number) => {
+        console.log("y: ", y);
+
+        parentStartPointLayout.current = y;
+      });
+  };
+  const callback = (refrenc: any) => {
+    refrenc.current = parentStartPointLayout.current;
+    console.log();
+  };
+
   return (
     <View style={styles.container}>
       {/* import  */}
@@ -111,10 +124,20 @@ const multimanipulator = () => {
           dropdownStyles={{ backgroundColor: "#c5c5c5", height: 130 }}
           searchPlaceholder=""
         />
+        {format === "png" ? (
+          <>
+            <Text style={{ color: "red" }}>*PNG format is not compressable*</Text>
+            <Text style={{ color: "red" }}>*If you chose PNG just format changes*</Text>
+            <Text style={{ color: "red", textAlign: "center" }}>
+              First compress to another format and save then change the format to PNG if you want to
+              reduce the size
+            </Text>
+          </>
+        ) : null}
       </View>
       {/* save */}
-      <View style={styles.save}>
-        <StartMultiChanges />
+      <View style={styles.save} onLayout={parentLayout} ref={layoutRef}>
+        <StartMultiChanges style={{ flex: 1, backgroundColor: "yellow" }} call={callback} />
       </View>
     </View>
   );
@@ -129,15 +152,18 @@ const styles = StyleSheet.create({
   import: {
     flex: 1,
     justifyContent: "center",
+    alignItems: "center",
   },
   importImage: {
-    width: "auto",
+    width: "65%",
     marginHorizontal: 42,
     marginTop: 0,
-    backgroundColor: "#00ADB5",
+    backgroundColor: "#858585",
     borderRadius: 10,
     height: 50,
     elevation: 2,
+    borderColor: "#00ADB5",
+    borderWidth: 1,
   },
   importImageText: {
     color: "white",
@@ -187,6 +213,8 @@ const styles = StyleSheet.create({
     flex: 1,
     // backgroundColor: "green",
     alignItems: "center",
+    paddingBottom: 130,
+    paddingTop: 24,
   },
   boxStyles: {
     width: "60%",
@@ -198,7 +226,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   save: {
-    flex: 1,
+    flex: 2,
     // backgroundColor: "blue",
   },
 });

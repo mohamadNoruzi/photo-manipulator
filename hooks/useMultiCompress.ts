@@ -1,7 +1,7 @@
 import { manipulateAsync } from "expo-image-manipulator";
 import * as FileSystem from "expo-file-system";
 import { useImagesDetail } from "@/state/storeMulti";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 const useMultiCompress = (callback: any) => {
   const {
@@ -20,6 +20,7 @@ const useMultiCompress = (callback: any) => {
     index: number;
   };
   const dataRef = useRef<dataRef[]>([]);
+  const endedCounter: any = useRef(0);
 
   const initData = async (name: string, index: number) => {
     const isExist = dataRef.current
@@ -37,14 +38,17 @@ const useMultiCompress = (callback: any) => {
 
     await initData(item?.name, index);
 
-    console.log("name: ", dataRef.current);
-
     try {
-      if (
-        (dataRef.current[index].size <= MaxQualitySize * 1000 &&
-          dataRef.current[index].quality === 9) ||
-        dataRef.current[index].quality === 1
-      ) {
+      // if (
+      //   dataRef.current[index].size <= MaxQualitySize * 1000 &&
+      //   dataRef.current[index].quality === 9
+      // ) {
+      //   endedCounter.current += 1;
+      //   return;
+      // }
+      if (dataRef.current[index].quality === 1) {
+        endedCounter.current += 1;
+        callback("max");
         return;
       } else {
         manipulateAsync(
@@ -53,7 +57,10 @@ const useMultiCompress = (callback: any) => {
           { compress: dataRef.current[index].quality / 10, format: format }
         )
           .then((response) => FileSystem.getInfoAsync(response.uri))
-          .catch((err) => console.log("File Error: ", err))
+          .catch((err) => {
+            console.log("File Error: ", err);
+            err && callback("error");
+          })
           .then((response) => {
             setCompressDetailArray({
               index: index,
@@ -72,22 +79,30 @@ const useMultiCompress = (callback: any) => {
             if (size > MaxQualitySize * 1000) {
               console.log("size", size);
               if (format === "png") {
+                endedCounter.current += 1;
+                callback();
                 return;
               } else {
                 compressImages(item, index);
               }
+            } else {
+              endedCounter.current += 1;
+              // if(endedCounter.current)
+              callback();
+              console.log("endedCounter.current:", endedCounter.current);
+              return;
             }
           });
       }
-      if (dataRef.current[index].size <= MaxQualitySize * 1000) {
-        // callback();
-        return;
-      }
+      // if (dataRef.current[index].size <= MaxQualitySize * 1000) {
+      //   endedCounter.current += 1;
+      //   return;
+      // }
     } catch (err) {
       console.log("!!Error: ", err);
     }
   };
 
-  return { compressImages, dataRef };
+  return { compressImages, dataRef, endedCounter };
 };
 export default useMultiCompress;
