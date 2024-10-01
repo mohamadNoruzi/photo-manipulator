@@ -1,5 +1,14 @@
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Dimensions } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
+  KeyboardAvoidingView,
+} from "react-native";
+import { useRef } from "react";
 import MyButton from "@/components/MyButton";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
@@ -75,7 +84,6 @@ const multimanipulator = () => {
   };
   const callback = (refrenc: any) => {
     refrenc.current = parentStartPointLayout.current;
-    console.log();
   };
 
   return (
@@ -150,9 +158,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   import: {
-    flex: 1,
+    flex: 3,
     justifyContent: "center",
     alignItems: "center",
+    paddingTop: 30,
   },
   importImage: {
     width: "65%",
@@ -169,8 +178,9 @@ const styles = StyleSheet.create({
     color: "white",
   },
   quality: {
-    flex: 1,
+    flex: 3,
     // backgroundColor: "yellow",
+    paddingBottom: 60,
   },
   qualityText: {
     justifyContent: "center",
@@ -213,8 +223,9 @@ const styles = StyleSheet.create({
     flex: 1,
     // backgroundColor: "green",
     alignItems: "center",
-    paddingBottom: 130,
+    paddingBottom: 20,
     paddingTop: 24,
+    zIndex: 1,
   },
   boxStyles: {
     width: "60%",
@@ -226,7 +237,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   save: {
-    flex: 2,
+    flex: 5,
     // backgroundColor: "blue",
   },
 });

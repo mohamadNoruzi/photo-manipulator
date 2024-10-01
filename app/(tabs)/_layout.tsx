@@ -14,7 +14,7 @@ export default function RootLayoutNav() {
         name="multimanipulator"
         options={{
           title: "Multi",
-          // headerShown: false,
+          headerShown: false,
         }}
       />
       <Tabs.Screen

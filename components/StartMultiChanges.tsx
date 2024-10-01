@@ -1,5 +1,6 @@
-import { StyleSheet, Text, TouchableOpacity, View, Modal, Dimensions } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useRef, useState } from "react";
+import { router } from "expo-router";
 import useMultiCompress from "@/hooks/useMultiCompress";
 import { useImagesDetail } from "@/state/storeMulti";
 
@@ -7,6 +8,7 @@ const StartMultiChanges = ({ call }: any) => {
   const [counter, setCounter] = useState<number>(0);
   const [status, setStatus] = useState("start");
   const parentLayout = useRef(0);
+
   call(parentLayout);
   console.log("parentLayout: ", parentLayout.current);
 
@@ -46,16 +48,7 @@ const StartMultiChanges = ({ call }: any) => {
   };
 
   const validate = () => {
-    const isnotComplete = compressDetailArray.some((item) => item.isLowerThanMax === false);
-    console.log("isnotComplete: ", isnotComplete);
-    if (
-      isnotComplete === false &&
-      status !== "error" &&
-      endedCounter.current === detailsArray.length
-    ) {
-      setStatus("successful");
-    }
-    if (status !== "error" && format === "png" && endedCounter.current === detailsArray.length) {
+    if (status !== "error" && endedCounter.current === detailsArray.length) {
       setStatus("successful");
     }
   };
@@ -64,10 +57,6 @@ const StartMultiChanges = ({ call }: any) => {
   console.log("dataRef: ", dataRef.current);
   console.log("endedCounter: ", endedCounter.current);
   console.log("detailsArray.length: ", detailsArray.length);
-
-  // useEffect(() => {
-  //   validate()
-  // }, [endedCounter]);
 
   return (
     <View style={styles.container}>
@@ -79,23 +68,14 @@ const StartMultiChanges = ({ call }: any) => {
       {status === "start" && (
         <TouchableOpacity
           onPress={handlePress}
-          style={[
-            styles.stateButton,
-            { backgroundColor: "#858585", borderWidth: 1.5, borderColor: "#00ADB5" },
-          ]}
+          style={[styles.stateButton, { backgroundColor: "#858585" }]}
         >
           <Text style={{ color: "white" }}>Start</Text>
         </TouchableOpacity>
       )}
 
       {status === "loading" && (
-        <TouchableOpacity
-          onPress={update}
-          style={[
-            styles.stateButton,
-            { backgroundColor: "red", borderWidth: 1.5, borderColor: "#00ADB5" },
-          ]}
-        >
+        <TouchableOpacity onPress={update} style={[styles.stateButton, { backgroundColor: "red" }]}>
           <Text>Cancel</Text>
         </TouchableOpacity>
       )}
@@ -105,43 +85,28 @@ const StartMultiChanges = ({ call }: any) => {
 
           <TouchableOpacity
             onPress={update}
-            style={[
-              styles.stateButton,
-              { backgroundColor: "yellow", borderWidth: 1.5, borderColor: "#00ADB5" },
-            ]}
+            style={[styles.stateButton, { backgroundColor: "yellow" }]}
           >
             <Text>Error</Text>
           </TouchableOpacity>
         </>
       )}
-      {status === "successful" && (
+      {(status === "successful" || status === "max") && (
         <>
-          <TouchableOpacity
-            onPress={update}
-            style={[
-              styles.stateButton,
-              { backgroundColor: "green", borderWidth: 1.5, borderColor: "#00ADB5" },
-            ]}
-          >
-            <Text>successful</Text>
-          </TouchableOpacity>
-          {/* <Text>Please Pick images again</Text> */}
-        </>
-      )}
-      {status === "max" && (
-        <>
+          <Text style={{ marginBottom: 26 }}>Successful</Text>
           <Text style={{ marginBottom: 26 }}>
-            Max Compresstion is lower than chosen maximum size
+            {status === "max" && "Max Compresstion is lower than chosen maximum size"}
           </Text>
           <TouchableOpacity
-            onPress={update}
-            style={[
-              styles.stateButton,
-              { backgroundColor: "green", borderWidth: 1.5, borderColor: "#00ADB5" },
-            ]}
+            onPress={() => {
+              router.navigate("save");
+              update();
+            }}
+            style={[styles.stateButton, { backgroundColor: "green" }]}
           >
-            <Text>successful</Text>
+            <Text>Save</Text>
           </TouchableOpacity>
+          {/* <Text>Please Pick images again</Text> */}
         </>
       )}
     </View>
@@ -164,17 +129,19 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 25,
     elevation: 2,
-    borderWidth: 0,
     marginBottom: 10,
     alignItems: "center",
     justifyContent: "center",
     zIndex: 10,
+    borderWidth: 1.5,
+    borderColor: "#00ADB5",
   },
   cover: {
     position: "absolute",
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    backgroundColor: "rgba(0, 0, 0, 0)",
     width: "100%",
     height: 1000,
     bottom: 0,
+    zIndex: 100,
   },
 });

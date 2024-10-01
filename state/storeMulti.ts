@@ -28,6 +28,7 @@ type DetailsArray = {
   setFormat: (value: string) => void;
   setCompressDetailArray: (value: compressDetail) => void;
   removeCompressArray: () => void;
+  removeItemCompressArray: (index: number) => void;
   setQualityNumberParameters: () => void;
 };
 
@@ -61,6 +62,11 @@ export const useImagesDetail = create<DetailsArray>()((set) => ({
     });
   },
   removeCompressArray: () => set(() => ({ compressDetailArray: [] })),
+  removeItemCompressArray: (index) =>
+    set((state) => {
+      const newList = state.compressDetailArray.filter((item) => item.index !== index);
+      return { compressDetailArray: [...newList] };
+    }),
   setQualityNumberParameters: () => {
     set((state) => {
       if (state.qualityNumberParameters !== 0.1) {

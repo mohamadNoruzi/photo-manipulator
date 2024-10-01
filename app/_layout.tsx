@@ -1,9 +1,8 @@
 import { Stack } from "expo-router";
-import React from "react";
 import CustomHeader from "@/components/CustomHeader";
 
 export const unstable_settings = {
-  initialRouteName: "index",
+  initialRouteName: "save",
 };
 
 export default function RootLayoutNav() {
@@ -19,6 +18,13 @@ export default function RootLayoutNav() {
         name="(tabs)"
         options={{
           headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="save"
+        options={{
+          headerShown: false,
+          presentation: "modal",
         }}
       />
     </Stack>

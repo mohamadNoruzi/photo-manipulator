@@ -39,13 +39,6 @@ const useMultiCompress = (callback: any) => {
     await initData(item?.name, index);
 
     try {
-      // if (
-      //   dataRef.current[index].size <= MaxQualitySize * 1000 &&
-      //   dataRef.current[index].quality === 9
-      // ) {
-      //   endedCounter.current += 1;
-      //   return;
-      // }
       if (dataRef.current[index].quality === 1) {
         endedCounter.current += 1;
         callback("max");
@@ -87,17 +80,13 @@ const useMultiCompress = (callback: any) => {
               }
             } else {
               endedCounter.current += 1;
-              // if(endedCounter.current)
+
               callback();
               console.log("endedCounter.current:", endedCounter.current);
               return;
             }
           });
       }
-      // if (dataRef.current[index].size <= MaxQualitySize * 1000) {
-      //   endedCounter.current += 1;
-      //   return;
-      // }
     } catch (err) {
       console.log("!!Error: ", err);
     }
