@@ -2,7 +2,7 @@ import { Stack } from "expo-router";
 import CustomHeader from "@/components/CustomHeader";
 
 export const unstable_settings = {
-  initialRouteName: "save",
+  initialRouteName: "index",
 };
 
 export default function RootLayoutNav() {

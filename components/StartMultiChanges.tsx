@@ -1,25 +1,14 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { router } from "expo-router";
 import useMultiCompress from "@/hooks/useMultiCompress";
 import { useImagesDetail } from "@/state/storeMulti";
 
-const StartMultiChanges = ({ call }: any) => {
+const StartMultiChanges = () => {
   const [counter, setCounter] = useState<number>(0);
   const [status, setStatus] = useState("start");
-  const parentLayout = useRef(0);
 
-  call(parentLayout);
-  console.log("parentLayout: ", parentLayout.current);
-
-  const {
-    endQuality,
-    format,
-    detailsArray,
-    compressDetailArray,
-    removeCompressArray,
-    setQualityNumberParameters,
-  } = useImagesDetail();
+  const { detailsArray, compressDetailArray, removeCompressArray } = useImagesDetail();
 
   const handleError = (error?: string) => {
     setCounter((prev) => prev + 1);
@@ -75,7 +64,10 @@ const StartMultiChanges = ({ call }: any) => {
       )}
 
       {status === "loading" && (
-        <TouchableOpacity onPress={update} style={[styles.stateButton, { backgroundColor: "red" }]}>
+        <TouchableOpacity
+          onPress={update}
+          style={[styles.stateButton, { backgroundColor: "#FD5D5D" }]}
+        >
           <Text>Cancel</Text>
         </TouchableOpacity>
       )}
@@ -85,7 +77,7 @@ const StartMultiChanges = ({ call }: any) => {
 
           <TouchableOpacity
             onPress={update}
-            style={[styles.stateButton, { backgroundColor: "yellow" }]}
+            style={[styles.stateButton, { backgroundColor: "#FFEE63" }]}
           >
             <Text>Error</Text>
           </TouchableOpacity>
@@ -94,15 +86,15 @@ const StartMultiChanges = ({ call }: any) => {
       {(status === "successful" || status === "max") && (
         <>
           <Text style={{ marginBottom: 26 }}>Successful</Text>
-          <Text style={{ marginBottom: 26 }}>
-            {status === "max" && "Max Compresstion is lower than chosen maximum size"}
+          <Text style={{ marginBottom: 26, paddingHorizontal: 22, textAlign: "center" }}>
+            {status === "max" && "Some images cannot be compressed to the selected maximum size."}
           </Text>
           <TouchableOpacity
             onPress={() => {
               router.navigate("save");
               update();
             }}
-            style={[styles.stateButton, { backgroundColor: "green" }]}
+            style={[styles.stateButton, { backgroundColor: "#9ADE7B" }]}
           >
             <Text>Save</Text>
           </TouchableOpacity>
@@ -132,7 +124,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignItems: "center",
     justifyContent: "center",
-    zIndex: 10,
+    zIndex: 1000,
     borderWidth: 1.5,
     borderColor: "#00ADB5",
   },

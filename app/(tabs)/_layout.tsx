@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 import React from "react";
-import CustomHeader from "@/components/CustomHeader";
 import ManipulatorHeader from "@/components/ManipulatorHeader";
+import { Ionicons } from "@expo/vector-icons";
 
 export const unstable_settings = {
   initialRouteName: "manipulator",
@@ -13,15 +13,23 @@ export default function RootLayoutNav() {
       <Tabs.Screen
         name="multimanipulator"
         options={{
-          title: "Multi",
+          title: "Multiple",
           headerShown: false,
+          tabBarIcon: () => <Ionicons name="layers-outline" size={24} />,
+          tabBarLabelStyle: { fontSize: 12 },
+          tabBarActiveBackgroundColor: "#F5F7F8",
+          tabBarActiveTintColor: "black",
         }}
       />
       <Tabs.Screen
         name="manipulator"
         options={{
-          headerTitle: "",
+          title: "One",
           header: () => <ManipulatorHeader />,
+          tabBarIcon: () => <Ionicons name="square-outline" size={20} />,
+          tabBarLabelStyle: { fontSize: 12 },
+          tabBarActiveBackgroundColor: "#F5F7F8",
+          tabBarActiveTintColor: "black",
         }}
       />
     </Tabs>

@@ -1,14 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Keyboard,
-  KeyboardAvoidingView,
-} from "react-native";
-import { useRef } from "react";
+import { StyleSheet, View, Text, TextInput, TouchableOpacity } from "react-native";
 import MyButton from "@/components/MyButton";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
@@ -18,13 +8,10 @@ import StartMultiChanges from "@/components/StartMultiChanges";
 import { SaveFormat } from "expo-image-manipulator";
 
 const multimanipulator = () => {
-  const parentStartPointLayout = useRef<any>();
-  const layoutRef = useRef<any>();
   const {
-    detailsArray,
     MaxQualitySize,
     format,
-    compressDetailArray,
+
     setImagesDetail,
     removeImagesDetail,
     setMaxQualitySize,
@@ -74,18 +61,6 @@ const multimanipulator = () => {
     pickImage();
   };
 
-  const parentLayout = () => {
-    layoutRef.current &&
-      layoutRef.current.measureInWindow((_: number, y: number) => {
-        console.log("y: ", y);
-
-        parentStartPointLayout.current = y;
-      });
-  };
-  const callback = (refrenc: any) => {
-    refrenc.current = parentStartPointLayout.current;
-  };
-
   return (
     <View style={styles.container}>
       {/* import  */}
@@ -101,7 +76,7 @@ const multimanipulator = () => {
       <View style={styles.quality}>
         <View style={styles.methodOne}>
           <View style={styles.qualityText}>
-            <Text style={{ fontSize: 16 }}>Determain Maximum Size For All Images</Text>
+            <Text style={{ fontSize: 16 }}>Determine the maximum size for all images</Text>
           </View>
           <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
             <TextInput
@@ -144,8 +119,8 @@ const multimanipulator = () => {
         ) : null}
       </View>
       {/* save */}
-      <View style={styles.save} onLayout={parentLayout} ref={layoutRef}>
-        <StartMultiChanges style={{ flex: 1, backgroundColor: "yellow" }} call={callback} />
+      <View style={styles.save}>
+        <StartMultiChanges />
       </View>
     </View>
   );

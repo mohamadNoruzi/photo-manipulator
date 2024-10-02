@@ -7,9 +7,7 @@ const useMultiCompress = (callback: any) => {
   const {
     detailsArray,
     format,
-    qualityNumberParameters,
     MaxQualitySize,
-    compressDetailArray,
     setCompressDetailArray,
   } = useImagesDetail();
 

@@ -1,17 +1,32 @@
-import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { useState } from "react";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
+import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useImagesDetail } from "@/state/storeMulti";
 import GmailStyleSwipeableRow from "@/components/Swipeable";
-
-import { useState } from "react";
+import useSave from "@/hooks/useSave";
 
 const save = () => {
   const { compressDetailArray, removeItemCompressArray } = useImagesDetail();
-  const [counter, setCounter] = useState<number>(0);
+  const [modalShow, setModalShow] = useState<boolean>(false);
+  const { getMultiAlbums } = useSave();
 
-  const update = () => {
-    setCounter((prev) => prev + 1);
-    console.log(compressDetailArray);
+  const handleSave = () => {
+    getMultiAlbums().then(() => {
+      setModalShow(true);
+      setTimeout(() => {
+        setModalShow(false);
+        router.navigate("(tabs)/multimanipulator");
+      }, 7000);
+    });
   };
 
   const renderItem = ({ item, index }: any) => {
@@ -30,6 +45,21 @@ const save = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      {modalShow && (
+        <TouchableOpacity
+          style={styles.modal}
+          onPress={() => router.navigate("(tabs)/multimanipulator")}
+          activeOpacity={0}
+        >
+          <Text style={{ fontSize: 20, color: "white" }}>Congratulation 🎉</Text>
+          <Text> </Text>
+          <Text style={{ fontSize: 16, color: "white" }}>
+            Images has been saved successfully at
+          </Text>
+          <Text> </Text>
+          <Text style={{ fontSize: 18, color: "white" }}>/Storage/Pictures/FormatResizer</Text>
+        </TouchableOpacity>
+      )}
       <View style={styles.show}>
         <FlatList
           data={compressDetailArray}
@@ -43,8 +73,14 @@ const save = () => {
         />
       </View>
       <View style={styles.settings}>
-        <TouchableOpacity onPress={update}>
-          <Text>refresh</Text>
+        <TouchableOpacity onPress={handleSave} style={styles.button}>
+          <Text style={{ fontSize: 16 }}>Save</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => router.navigate("(tabs)/multimanipulator")}
+          style={styles.button}
+        >
+          <Text style={{ fontSize: 16 }}>Cancel</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -58,11 +94,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   show: {
-    flex: 1,
+    flex: 2,
     // backgroundColor: "green",
-  },
-  settings: {
-    flex: 1,
+    elevation: 4,
   },
   row: {
     flexDirection: "row",
@@ -75,5 +109,34 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "condensed",
     margin: 16,
+  },
+  settings: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 35,
+  },
+  button: {
+    width: "50%",
+    backgroundColor: "white",
+    height: 50,
+    borderRadius: 25,
+    elevation: 2,
+    marginBottom: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 10,
+    borderWidth: 1,
+    borderColor: "#00ADB5",
+  },
+  modal: {
+    backgroundColor: "rgba(0, 0, 0, 0.9)",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    top: 0,
+    width: "100%",
+    height: Dimensions.get("screen").height,
+    zIndex: 1000,
   },
 });
