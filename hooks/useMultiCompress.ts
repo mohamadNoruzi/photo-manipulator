@@ -4,12 +4,7 @@ import { useImagesDetail } from "@/state/storeMulti";
 import { useRef } from "react";
 
 const useMultiCompress = (callback: any) => {
-  const {
-    detailsArray,
-    format,
-    MaxQualitySize,
-    setCompressDetailArray,
-  } = useImagesDetail();
+  const { detailsArray, format, MaxQualitySize, setCompressDetailArray } = useImagesDetail();
 
   type dataRef = {
     name: string;
@@ -37,19 +32,21 @@ const useMultiCompress = (callback: any) => {
     await initData(item?.name, index);
 
     try {
-      if (dataRef.current[index].quality === 1) {
+      if (dataRef.current[index].quality === 0) {
         endedCounter.current += 1;
-        callback("max");
+        setTimeout(() => {
+          callback("max");
+        }, 7000);
         return;
       } else {
         manipulateAsync(
           item.uri,
           [], // adjust width as needed
-          { compress: dataRef.current[index].quality / 10, format: format }
+          { compress: dataRef.current[index].quality / 10, format: format || "jpeg" }
         )
           .then((response) => FileSystem.getInfoAsync(response.uri))
           .catch((err) => {
-            console.log("File Error: ", err);
+            // console.log("File Error: ", err);
             err && callback("error");
           })
           .then((response) => {
@@ -63,12 +60,11 @@ const useMultiCompress = (callback: any) => {
           })
           .then((size) => {
             dataRef.current[index].size = size;
-            if (dataRef.current[index].quality !== 1) {
+            if (dataRef.current[index].quality !== 0) {
               dataRef.current[index].quality = dataRef.current[index].quality - 1;
             }
 
             if (size > MaxQualitySize * 1000) {
-              console.log("size", size);
               if (format === "png") {
                 endedCounter.current += 1;
                 callback();
@@ -80,13 +76,12 @@ const useMultiCompress = (callback: any) => {
               endedCounter.current += 1;
 
               callback();
-              console.log("endedCounter.current:", endedCounter.current);
               return;
             }
           });
       }
     } catch (err) {
-      console.log("!!Error: ", err);
+      // console.log("!!Error: ", err);
     }
   };
 

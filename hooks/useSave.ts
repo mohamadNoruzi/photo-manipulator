@@ -1,7 +1,6 @@
 import { useImageStore } from "@/state/storeSingle";
 import { useImagesDetail } from "@/state/storeMulti";
 import * as MediaLibrary from "expo-media-library";
-import * as Sharing from "expo-sharing";
 
 export default function useSave() {
   const { imageUri } = useImageStore();
@@ -46,12 +45,5 @@ export default function useSave() {
     }
   }
 
-  async function share() {
-    if (permissionResponse?.status !== "granted") {
-      await requestPermission();
-    }
-    await Sharing.shareAsync(imageUri);
-  }
-
-  return { getAlbums, getMultiAlbums, share };
+  return { getAlbums, getMultiAlbums };
 }

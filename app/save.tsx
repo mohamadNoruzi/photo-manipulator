@@ -13,6 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useImagesDetail } from "@/state/storeMulti";
 import GmailStyleSwipeableRow from "@/components/Swipeable";
 import useSave from "@/hooks/useSave";
+import i18n from "@/constants/LocalLang";
 
 const save = () => {
   const { compressDetailArray, removeItemCompressArray } = useImagesDetail();
@@ -34,7 +35,7 @@ const save = () => {
       <View>
         <GmailStyleSwipeableRow onDelete={() => removeItemCompressArray(item.index)}>
           <View style={styles.row}>
-            <Text>{index + 1}.</Text>
+            <Text style={{ width: 30 }}>{index + 1}.</Text>
             <Image style={{ width: 80, height: 80 }} source={{ uri: item.uri }} />
             <Text style={{ color: "gery", paddingLeft: 100 }}>{item.size / 1000} KB</Text>
           </View>
@@ -51,11 +52,9 @@ const save = () => {
           onPress={() => router.navigate("(tabs)/multimanipulator")}
           activeOpacity={0}
         >
-          <Text style={{ fontSize: 20, color: "white" }}>Congratulation 🎉</Text>
+          <Text style={{ fontSize: 20, color: "white" }}>{i18n.t("save1")} 🎉</Text>
           <Text> </Text>
-          <Text style={{ fontSize: 16, color: "white" }}>
-            Images has been saved successfully at
-          </Text>
+          <Text style={{ fontSize: 16, color: "white" }}>{i18n.t("save2")}</Text>
           <Text> </Text>
           <Text style={{ fontSize: 18, color: "white" }}>/Storage/Pictures/FormatResizer</Text>
         </TouchableOpacity>
@@ -69,18 +68,18 @@ const save = () => {
           ItemSeparatorComponent={() => (
             <View style={{ height: 0.5, backgroundColor: "#c5c5c5" }}></View>
           )}
-          ListHeaderComponent={<Text style={styles.section}>Images</Text>}
+          ListHeaderComponent={<Text style={styles.section}>{i18n.t("images")}</Text>}
         />
       </View>
       <View style={styles.settings}>
         <TouchableOpacity onPress={handleSave} style={styles.button}>
-          <Text style={{ fontSize: 16 }}>Save</Text>
+          <Text style={{ fontSize: 16 }}>{i18n.t("save")}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => router.navigate("(tabs)/multimanipulator")}
           style={styles.button}
         >
-          <Text style={{ fontSize: 16 }}>Cancel</Text>
+          <Text style={{ fontSize: 16 }}>{i18n.t("cancel")}</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

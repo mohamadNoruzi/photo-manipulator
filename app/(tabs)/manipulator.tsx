@@ -233,6 +233,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     elevation: 4,
+    paddingBottom: 120,
   },
   qualityText: {
     flexDirection: "row",

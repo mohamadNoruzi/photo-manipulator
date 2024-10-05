@@ -3,6 +3,9 @@ import { useState } from "react";
 import { router } from "expo-router";
 import useMultiCompress from "@/hooks/useMultiCompress";
 import { useImagesDetail } from "@/state/storeMulti";
+import i18n from "@/constants/LocalLang";
+import LoadingAnimation from "./LoadingAnimation";
+import LoadingText from "./LoadingText";
 
 const StartMultiChanges = () => {
   const [counter, setCounter] = useState<number>(0);
@@ -12,7 +15,6 @@ const StartMultiChanges = () => {
 
   const handleError = (error?: string) => {
     setCounter((prev) => prev + 1);
-    console.log(counter);
     error ? setStatus(error) : validate();
   };
 
@@ -38,56 +40,58 @@ const StartMultiChanges = () => {
 
   const validate = () => {
     if (status !== "error" && endedCounter.current === detailsArray.length) {
-      setStatus("successful");
+      setTimeout(() => {
+        setStatus("successful");
+      }, 7000);
     }
   };
-
-  console.log("compressDetailArray", compressDetailArray);
-  console.log("dataRef: ", dataRef.current);
-  console.log("endedCounter: ", endedCounter.current);
-  console.log("detailsArray.length: ", detailsArray.length);
 
   return (
     <View style={styles.container}>
       {status === "loading" && (
-        // <Modal visible={modalVisiblity} animationType="fade" transparent={true}>
         <TouchableOpacity style={[styles.cover, { bottom: 0 }]}></TouchableOpacity>
-        // </Modal>
       )}
       {status === "start" && (
-        <TouchableOpacity
-          onPress={handlePress}
-          style={[styles.stateButton, { backgroundColor: "#858585" }]}
-        >
-          <Text style={{ color: "white" }}>Start</Text>
-        </TouchableOpacity>
+        <>
+          <LoadingAnimation textPointer={0} />
+
+          <TouchableOpacity
+            onPress={handlePress}
+            style={[styles.stateButton, { backgroundColor: "#858585" }]}
+          >
+            <Text style={{ color: "white" }}>{i18n.t("start")}</Text>
+          </TouchableOpacity>
+        </>
       )}
 
       {status === "loading" && (
-        <TouchableOpacity
-          onPress={update}
-          style={[styles.stateButton, { backgroundColor: "#FD5D5D" }]}
-        >
-          <Text>Cancel</Text>
-        </TouchableOpacity>
+        <>
+          <LoadingText />
+          <TouchableOpacity
+            onPress={update}
+            style={[styles.stateButton, { backgroundColor: "#FD5D5D" }]}
+          >
+            <Text>{i18n.t("cancel")}</Text>
+          </TouchableOpacity>
+        </>
       )}
       {status === "error" && (
         <>
-          <Text style={{ marginBottom: 26 }}>Please Pick images again</Text>
+          <Text style={{ marginBottom: 26 }}>{i18n.t("errorText")}</Text>
 
           <TouchableOpacity
             onPress={update}
             style={[styles.stateButton, { backgroundColor: "#FFEE63" }]}
           >
-            <Text>Error</Text>
+            <Text>{i18n.t("error")}</Text>
           </TouchableOpacity>
         </>
       )}
       {(status === "successful" || status === "max") && (
         <>
-          <Text style={{ marginBottom: 26 }}>Successful</Text>
+          <Text style={{ marginBottom: 26 }}>{i18n.t("successful")}</Text>
           <Text style={{ marginBottom: 26, paddingHorizontal: 22, textAlign: "center" }}>
-            {status === "max" && "Some images cannot be compressed to the selected maximum size."}
+            {status === "max" && i18n.t("maxText")}
           </Text>
           <TouchableOpacity
             onPress={() => {
@@ -96,9 +100,8 @@ const StartMultiChanges = () => {
             }}
             style={[styles.stateButton, { backgroundColor: "#9ADE7B" }]}
           >
-            <Text>Save</Text>
+            <Text>{i18n.t("save")}</Text>
           </TouchableOpacity>
-          {/* <Text>Please Pick images again</Text> */}
         </>
       )}
     </View>
@@ -112,7 +115,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
-    // backgroundColor: "red",
+    backgroundColor: "#f2f2f2",
     paddingBottom: 20,
   },
   stateButton: {

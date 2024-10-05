@@ -6,6 +6,7 @@ import { SelectList } from "react-native-dropdown-select-list";
 import { useImagesDetail, imageDetail } from "@/state/storeMulti";
 import StartMultiChanges from "@/components/StartMultiChanges";
 import { SaveFormat } from "expo-image-manipulator";
+import i18n from "@/constants/LocalLang";
 
 const multimanipulator = () => {
   const {
@@ -66,7 +67,7 @@ const multimanipulator = () => {
       {/* import  */}
       <View style={styles.import}>
         <MyButton
-          title="Import Images"
+          title={i18n.t("importImages")}
           Bstyle={styles.importImage}
           Tstyle={styles.importImageText}
           onPress={handlePickImage}
@@ -76,14 +77,21 @@ const multimanipulator = () => {
       <View style={styles.quality}>
         <View style={styles.methodOne}>
           <View style={styles.qualityText}>
-            <Text style={{ fontSize: 16 }}>Determine the maximum size for all images</Text>
+            <Text style={{ fontSize: 16 }}>{i18n.t("maxSize")}</Text>
           </View>
-          <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "#f2f2f2",
+            }}
+          >
             <TextInput
               value={MaxQualitySize === 0 ? "" : String(MaxQualitySize)}
               onChangeText={(val) => setMaxQualitySize(Number(val))}
               style={styles.MaxQualityInput}
-              placeholder="Like 250"
+              placeholder={i18n.t("maxPlaceHolder")}
               keyboardType="numeric"
             />
             <View style={styles.KB}>
@@ -102,19 +110,16 @@ const multimanipulator = () => {
           setSelected={(val: string) => setFormat(val)}
           data={formatData}
           save="value"
-          placeholder="Select Format"
+          placeholder={i18n.t("formatPlaceHolder")}
           boxStyles={styles.boxStyles}
           dropdownStyles={{ backgroundColor: "#c5c5c5", height: 130 }}
           searchPlaceholder=""
         />
         {format === "png" ? (
           <>
-            <Text style={{ color: "red" }}>*PNG format is not compressable*</Text>
-            <Text style={{ color: "red" }}>*If you chose PNG just format changes*</Text>
-            <Text style={{ color: "red", textAlign: "center" }}>
-              First compress to another format and save then change the format to PNG if you want to
-              reduce the size
-            </Text>
+            <Text style={{ color: "red" }}>{i18n.t("png1")}</Text>
+            <Text style={{ color: "red" }}>{i18n.t("png2")}</Text>
+            <Text style={{ color: "red", textAlign: "center" }}>{i18n.t("png3")}</Text>
           </>
         ) : null}
       </View>
@@ -131,12 +136,14 @@ export default multimanipulator;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#f2f2f2",
   },
   import: {
     flex: 3,
     justifyContent: "center",
     alignItems: "center",
     paddingTop: 30,
+    backgroundColor: "#f2f2f2",
   },
   importImage: {
     width: "65%",
@@ -154,7 +161,7 @@ const styles = StyleSheet.create({
   },
   quality: {
     flex: 3,
-    // backgroundColor: "yellow",
+    backgroundColor: "#f2f2f2",
     paddingBottom: 60,
   },
   qualityText: {
@@ -171,6 +178,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 25,
     borderBottomLeftRadius: 25,
     paddingLeft: 20,
+    paddingRight: 20,
     elevation: 2,
   },
   KB: {
@@ -196,7 +204,7 @@ const styles = StyleSheet.create({
   qualityAlarm: {},
   format: {
     flex: 1,
-    // backgroundColor: "green",
+    backgroundColor: "#f2f2f2",
     alignItems: "center",
     paddingBottom: 20,
     paddingTop: 24,
@@ -213,6 +221,5 @@ const styles = StyleSheet.create({
   },
   save: {
     flex: 5,
-    // backgroundColor: "blue",
   },
 });

@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View, Modal } from "react-native";
-import React, { useState } from "react";
+import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";

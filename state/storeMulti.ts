@@ -20,8 +20,6 @@ type DetailsArray = {
   detailsArray: Array<imageDetail>;
   format: string | null | undefined;
   compressDetailArray: Array<compressDetail>;
-  qualityNumberParameters: number;
-  endQuality: boolean;
   setImagesDetail: (value: imageDetail) => void;
   removeImagesDetail: () => void;
   setMaxQualitySize: (value: number) => void;
@@ -29,7 +27,6 @@ type DetailsArray = {
   setCompressDetailArray: (value: compressDetail) => void;
   removeCompressArray: () => void;
   removeItemCompressArray: (index: number) => void;
-  setQualityNumberParameters: () => void;
 };
 
 export const useImagesDetail = create<DetailsArray>()((set) => ({
@@ -37,8 +34,7 @@ export const useImagesDetail = create<DetailsArray>()((set) => ({
   MaxQualitySize: 0,
   format: "",
   compressDetailArray: [],
-  qualityNumberParameters: 1,
-  endQuality: false,
+
   setImagesDetail: (value) => {
     set((state) => {
       state.removeCompressArray();
@@ -67,16 +63,4 @@ export const useImagesDetail = create<DetailsArray>()((set) => ({
       const newList = state.compressDetailArray.filter((item) => item.index !== index);
       return { compressDetailArray: [...newList] };
     }),
-  setQualityNumberParameters: () => {
-    set((state) => {
-      if (state.qualityNumberParameters !== 0.1) {
-        state.qualityNumberParameters *= 10;
-        state.qualityNumberParameters -= 1;
-        state.qualityNumberParameters /= 10;
-      } else {
-        state.endQuality = true;
-      }
-      return {};
-    });
-  },
 }));
