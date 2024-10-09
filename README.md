@@ -1,4 +1,6 @@
-You can see the released app in [Cafe Bazar](https://cafebazaar.ir/app/com.mohammadnorozy77.PhotoManipulator).
+[You can download the APK app from here directly (click)](formatResizerApp.apk).
+
+or you can see the released app in [Cafe Bazar](https://cafebazaar.ir/app/com.mohammadnorozy77.PhotoManipulator).
 
 [Link](https://cafebazaar.ir/app/com.mohammadnorozy77.PhotoManipulator)
 

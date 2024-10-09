@@ -161,6 +161,7 @@ const styles = StyleSheet.create({
     height: 100,
     justifyContent: "center",
     backgroundColor: "#f2f2f2",
+    direction: "ltr",
   },
   mask: {
     zIndex: 1,
@@ -168,6 +169,7 @@ const styles = StyleSheet.create({
     left: "0%",
     height: 44,
     backgroundColor: "#f2f2f2",
+    direction: "ltr",
   },
   ball: {
     width: 40,
@@ -177,19 +179,23 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     position: "absolute",
     left: "0%",
+    direction: "ltr",
   },
   titleText: {
     flexDirection: "row",
+    direction: "ltr",
   },
   title: {
     fontSize: 36,
     fontWeight: "600",
     left: "0%",
     position: "absolute",
+    direction: "ltr",
   },
   content: {
     justifyContent: "center",
     alignItems: "center",
+    direction: "ltr",
   },
 });
 export default memo(LoadingAnimation);

@@ -4,6 +4,10 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import i18n from "@/constants/LocalLang";
 import { Link } from "expo-router";
 import { useLanguageStore, useSliderStore } from "@/state/storeSingle";
+import { I18nManager } from "react-native";
+
+I18nManager.forceRTL(false); // Force LTR layout
+I18nManager.allowRTL(false); // Disable RTL support globally
 
 const Page = () => {
   const { changeQualityValue } = useSliderStore();

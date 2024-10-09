@@ -85,6 +85,7 @@ const multimanipulator = () => {
               alignItems: "center",
               justifyContent: "center",
               backgroundColor: "#f2f2f2",
+              direction: "ltr",
             }}
           >
             <TextInput
@@ -180,6 +181,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     elevation: 2,
+    direction: "ltr",
   },
   KB: {
     justifyContent: "center",
@@ -188,6 +190,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: "#c5c5c5",
     elevation: 2,
+    direction: "ltr",
   },
   removeQuality: {
     width: "10%",
@@ -198,6 +201,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     elevation: 2,
+    direction: "ltr",
   },
   methodOne: {},
   methodTwo: {},
