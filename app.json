@@ -56,7 +56,6 @@
     },
     "extra": {
       "supportsRTL": false,
-      "forcesRTL": false,
       "forcesLTR": true,
       "router": {
         "origin": false
