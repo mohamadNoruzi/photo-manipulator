@@ -21,8 +21,8 @@ const multimanipulator = () => {
 
   const formatData = [
     { value: SaveFormat.JPEG },
-    { value: SaveFormat.PNG },
     { value: SaveFormat.WEBP },
+    { value: SaveFormat.PNG },
   ];
 
   const handleRemoveMaxQuality = () => {

@@ -14,6 +14,7 @@ import { useImagesDetail } from "@/state/storeMulti";
 import GmailStyleSwipeableRow from "@/components/Swipeable";
 import useSave from "@/hooks/useSave";
 import i18n from "@/constants/LocalLang";
+import SavePDF from "@/components/SavePDF";
 
 const save = () => {
   const { compressDetailArray, removeItemCompressArray } = useImagesDetail();
@@ -75,6 +76,7 @@ const save = () => {
         <TouchableOpacity onPress={handleSave} style={styles.button}>
           <Text style={{ fontSize: 16 }}>{i18n.t("save")}</Text>
         </TouchableOpacity>
+        <SavePDF Cstyle={styles.button} />
         <TouchableOpacity
           onPress={() => router.navigate("(tabs)/multimanipulator")}
           style={styles.button}
@@ -94,7 +96,6 @@ const styles = StyleSheet.create({
   },
   show: {
     flex: 2,
-    // backgroundColor: "green",
     elevation: 4,
   },
   row: {
@@ -111,9 +112,10 @@ const styles = StyleSheet.create({
   },
   settings: {
     flex: 1,
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center",
     gap: 35,
+    paddingTop: 20,
   },
   button: {
     width: "50%",
