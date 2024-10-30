@@ -30,10 +30,11 @@ const translations = {
     errorText: "Please Pick images again",
     maxText: "Some images cannot be compressed to the selected maximum size.",
     save1: "Congratulation",
-    save2: "Images has been saved successfully at",
+    save2: "Images have been saved successfully at",
     images: "Images",
     tabOne: "One",
     tabTwo: "Multiple",
+    saveAsPdf: "Save as PDF",
   },
   fa: {
     welcome: "سلام",
@@ -65,6 +66,7 @@ const translations = {
     images: "تصاویر",
     tabOne: "تکی",
     tabTwo: "چندتایی",
+    saveAsPdf: "ذخیره به عنوان pdf",
   },
 };
 const i18n = new I18n(translations);

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import { useImagesDetail } from "@/state/storeMulti";
 import * as Print from "expo-print";
 import { shareAsync } from "expo-sharing";
@@ -13,7 +13,7 @@ const SavePDF = ({ Cstyle }: any) => {
       const base64 = await FileSystem.readAsStringAsync(uri, {
         encoding: FileSystem.EncodingType.Base64,
       });
-      return `data:image/${"jpeg"};base64,${base64}`; // Or change "jpeg" to the appropriate format
+      return `data:image/${format || "jpeg"};base64,${base64}`;
     } catch (err) {
       console.log("err: ", err);
     }
@@ -76,11 +76,9 @@ const SavePDF = ({ Cstyle }: any) => {
 
   return (
     <TouchableOpacity onPress={printToFile} style={Cstyle}>
-      <Text style={{ fontSize: 16 }}>Save as PDF</Text>
+      <Text style={{ fontSize: 16 }}>{i18n.t("saveAsPdf")}</Text>
     </TouchableOpacity>
   );
 };
 
 export default SavePDF;
-
-const styles = StyleSheet.create({});

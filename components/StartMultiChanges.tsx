@@ -53,7 +53,7 @@ const StartMultiChanges = () => {
       )}
       {status === "start" && (
         <>
-          <LoadingAnimation textPointer={0} />
+          <LoadingAnimation />
 
           <TouchableOpacity
             onPress={handlePress}
@@ -89,7 +89,16 @@ const StartMultiChanges = () => {
       )}
       {(status === "successful" || status === "max") && (
         <>
-          <Text style={{ marginBottom: 26 }}>{i18n.t("successful")}</Text>
+          <Text
+            style={{
+              marginBottom: 26,
+              fontSize: 36,
+              fontWeight: "600",
+              color: "#9ADE7B",
+            }}
+          >
+            {i18n.t("successful")}
+          </Text>
           <Text style={{ marginBottom: 26, paddingHorizontal: 22, textAlign: "center" }}>
             {status === "max" && i18n.t("maxText")}
           </Text>

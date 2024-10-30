@@ -77,7 +77,7 @@ const multimanipulator = () => {
       <View style={styles.quality}>
         <View style={styles.methodOne}>
           <View style={styles.qualityText}>
-            <Text style={{ fontSize: 16 }}>{i18n.t("maxSize")}</Text>
+            <Text style={{ fontSize: 16, color: "#6d6d6d" }}>{i18n.t("maxSize")}</Text>
           </View>
           <View
             style={{
@@ -147,11 +147,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#f2f2f2",
   },
   importImage: {
-    width: "65%",
+    width: "60%",
     marginHorizontal: 42,
     marginTop: 0,
     backgroundColor: "#858585",
-    borderRadius: 10,
+    borderRadius: 25,
     height: 50,
     elevation: 2,
     borderColor: "#00ADB5",

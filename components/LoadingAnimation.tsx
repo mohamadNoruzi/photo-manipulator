@@ -1,3 +1,4 @@
+import Colors from "@/constants/Colors";
 import { memo } from "react";
 import { StyleSheet, useWindowDimensions } from "react-native";
 import Animated, {
@@ -11,10 +12,36 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { ReText } from "react-native-redash";
-import { Content } from "@/utils/content";
 
-const LoadingAnimation = ({ textPointer }: any) => {
-  const content = Content[textPointer];
+const content = [
+  {
+    title: "Let's resize",
+    bg: Colors.lime,
+    fontColor: Colors.pink,
+  },
+  {
+    title: "Change the format",
+    bg: Colors.brown,
+    fontColor: Colors.sky,
+  },
+  {
+    title: "All together",
+    bg: Colors.orange,
+    fontColor: Colors.blue,
+  },
+  {
+    title: "With",
+    bg: Colors.teal,
+    fontColor: Colors.yellow,
+  },
+  {
+    title: "Format Resizer",
+    bg: Colors.green,
+    fontColor: Colors.pink,
+  },
+];
+
+const LoadingAnimation = () => {
   const { width } = useWindowDimensions();
   const ballWidth = 34;
   const half = width / 2 - ballWidth / 2;
