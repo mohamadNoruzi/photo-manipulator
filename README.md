@@ -1,3 +1,5 @@
+Easily reduce the size of your photo or change its format to PNG , JPEG, WebP or PDF using the Format Resizer APP.
+
 [You can download the APK app from here directly (click)](formatResizerApp.apk).
 
 or you can see the released app in [Cafe Bazar](https://cafebazaar.ir/app/com.mohammadnorozy77.PhotoManipulator).
